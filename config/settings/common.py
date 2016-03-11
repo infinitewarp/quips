@@ -33,6 +33,9 @@ DJANGO_APPS = (
 
     # Admin
     'django.contrib.admin',
+
+    # Automagic model ordering
+    'ordered_model',
 )
 THIRD_PARTY_APPS = (
     'crispy_forms',  # Form layouts
@@ -45,6 +48,7 @@ THIRD_PARTY_APPS = (
 LOCAL_APPS = (
     'quips.users',  # custom users app
     # Your stuff: custom apps go here
+    'quips.quips',
 )
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
