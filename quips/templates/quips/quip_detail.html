@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Quipped on {{ object.date}}{% endblock %}
+
+{% block content %}
+<div class="container">
+  <h1>Quip</h1>
+  <div class="row">
+    <div class="col-sm-12">
+
+      <h2>{{ object.date }}</h2>
+      {% if object.context %}<h3>{{ object.context }}</h3>{% endif %}
+      {% for quote in object.quotes.all %}
+      <blockquote>
+        {{quote.text}}
+        <cite>{{quote.speaker.name}}</cite>
+      </blockquote>
+      {% endfor %}
+
+    </div>
+  </div>
+
+</div>
+{% endblock content %}
+
