@@ -110,14 +110,14 @@ module.exports = function (grunt) {
         bg: true
       },
       runDjango: {
-        cmd: 'python <%= paths.manageScript %> runserver'
+        cmd: 'python <%= paths.manageScript %> runserver 0.0.0.0:8000'
       },
-      
+
     }
   });
 
   grunt.registerTask('serve', [
-    
+
     'bgShell:runDjango',
     'watch'
   ]);
