@@ -8,15 +8,17 @@ body {
   margin: 20px;
 }
 
-
-@media (min-width: 768px) {
+@media (min-width: 500px) {
   .quip:first-of-type {
     margin-top: 60px;
   }
-  .container {
-    width: 500px;
+  .quip {
+    width: 460px;
     margin-left: auto;
     margin-right: auto;
+  }
+  .container {
+    width: 100%;
   }
 }
 
@@ -25,6 +27,11 @@ body {
   font-family: 'Petit Formal Script', cursive;
   color: #555;
   text-shadow: 0 1px 1px rgba(255,255,255,0.7);
+}
+@media (max-width: 500px) {
+  .quip-date, .quip-context {
+    font-size: 15px;
+  }
 }
 
 .quip blockquote {
