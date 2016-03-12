@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+import uuid as uuid
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from ordered_model.models import OrderedModel
@@ -20,6 +21,7 @@ class Quip(models.Model):
     """
     Quip is the curious exchange of one or more Quotes with optional context.
     """
+    uuid = models.UUIDField(unique=True, default=uuid.uuid4, editable=False)
     context = models.CharField(_('Context of the Quote'), blank=True, max_length=255)
     date = models.DateField(_('Date of the Quote'), null=False)
 

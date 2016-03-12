@@ -12,7 +12,7 @@ urlpatterns = [
         name='random'
     ),
     url(
-        regex=r'^(?P<pk>[0-9]+)/$',
+        regex=r'^(?P<uuid>[\d\w\-]+)/$',
         view=views.QuipDetailView.as_view(),
         name='detail'
     ),
