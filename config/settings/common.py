@@ -41,6 +41,7 @@ THIRD_PARTY_APPS = (
     'allauth.socialaccount',  # registration
     'ordered_model',  # Automagic model ordering
     'typogrify',  # prettier template output
+    'memoize',  # function memoization
 )
 
 # Apps specific for this project go here.

@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 {% load typogrify_tags %}
+{% load quips_extras %}
 
 {% block title %}Quipped on {{ object.date}}{% endblock %}
 {% block css %}
@@ -18,7 +19,7 @@
       {% for quote in object.quotes.all %}
       <blockquote>
         <p>{{ quote.text|typogrify }}</p>
-        <footer class="text-right"><cite>{{ quote.speaker.name|typogrify }}</cite></footer>
+        <footer class="text-right"><cite>{{ quote.speaker.name|obfuscate_name|typogrify }}</cite></footer>
       </blockquote>
       {% endfor %}
     </div>

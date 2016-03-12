@@ -48,3 +48,4 @@ redis>=2.10.0
 # Your custom requirements go here
 django-ordered-model==1.1.0
 django-typogrify==1.3.3
+django-memoize==1.2.0
