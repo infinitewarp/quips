@@ -14,11 +14,11 @@
 {% autoescape off %}
 <div>
   <div class="row">
-    <div class="quip" id="quip{{ object.id }}">
+    <div class="quip">
       {% for quote in object.quotes.all %}
-      <blockquote id="quote{{ quote.id }}">
+      <blockquote>
         <p>{{ quote.text|typogrify }}</p>
-        <footer class="text-right"><cite class="speaker{{ quote.speaker.id }}">{{ quote.speaker.name|typogrify }}</cite></footer>
+        <footer class="text-right"><cite>{{ quote.speaker.name|typogrify }}</cite></footer>
       </blockquote>
       {% endfor %}
     </div>
