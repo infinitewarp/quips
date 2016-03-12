@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, Http404
 from django.utils.translation import ugettext as _
@@ -29,6 +30,12 @@ class QuipDetailView(DetailView):
                           {'verbose_name': queryset.model._meta.verbose_name})
 
         return obj
+
+
+class QuipDefaultView(QuipDetailView):
+    def get_object(self, queryset=None):
+        self.kwargs['uuid'] = settings.DEFAULT_QUIP_UUID
+        return super(QuipDefaultView, self).get_object(queryset)
 
 
 class QuipRandomView(View):

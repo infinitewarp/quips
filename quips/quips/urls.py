@@ -7,6 +7,11 @@ from . import views
 
 urlpatterns = [
     url(
+        regex=r'^$',
+        view=views.QuipDefaultView.as_view(),
+        name='base'
+    ),
+    url(
         regex=r'^random/?$',
         view=views.QuipRandomView.as_view(),
         name='random'

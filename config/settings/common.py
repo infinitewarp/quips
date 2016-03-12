@@ -233,3 +233,4 @@ AUTOSLUG_SLUGIFY_FUNCTION = 'slugify.slugify'
 ADMIN_URL = r'^admin/'
 
 # Your common stuff: Below this line define 3rd party library settings
+DEFAULT_QUIP_UUID = env('DEFAULT_QUIP_UUID')
