@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.core.cache import cache
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, Http404
 from django.utils.translation import ugettext as _
@@ -36,6 +37,25 @@ class QuipDefaultView(QuipDetailView):
     def get_object(self, queryset=None):
         self.kwargs['uuid'] = settings.DEFAULT_QUIP_UUID
         return super(QuipDefaultView, self).get_object(queryset)
+
+
+class QuipCachedRandomView(QuipDetailView):
+    cache_key = 'quip_current_random_uuid'
+
+    def get_object(self, queryset=None):
+        self.kwargs['uuid'] = self.choose_uuid()
+        return super(QuipCachedRandomView, self).get_object(queryset)
+
+    def choose_uuid(self):
+        uuid = cache.get(self.cache_key)
+        if uuid:
+            return uuid
+        quip = self.get_queryset().all().order_by('?').first()
+        if quip:
+            uuid = quip.uuid
+            cache.set(self.cache_key, uuid, settings.RANDOM_QUIP_CACHE_DURATION)
+        return uuid
+
 
 
 class QuipRandomView(View):

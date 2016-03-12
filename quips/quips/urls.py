@@ -12,8 +12,8 @@ urlpatterns = [
         name='base'
     ),
     url(
-        regex=r'^random/?$',
-        view=views.QuipRandomView.as_view(),
+        regex=r'^random/$',
+        view=views.QuipCachedRandomView.as_view(),
         name='random'
     ),
     url(
