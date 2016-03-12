@@ -1,26 +1,35 @@
 {% extends "base.html" %}
 {% load static %}
+{% load typogrify_tags %}
 
 {% block title %}Quipped on {{ object.date}}{% endblock %}
+{% block css %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link href="{% static 'css/quips-basicblue.css' %}" rel="stylesheet">
+{% endblock %}
+{% block angular %}{% endblock angular %}
 
+{% block navbar %}{% endblock navbar %}
 {% block content %}
-<div class="container">
-  <h1>Quip</h1>
+{% autoescape off %}
+<div>
   <div class="row">
-    <div class="col-sm-12">
-
-      <h2>{{ object.date }}</h2>
-      {% if object.context %}<h3>{{ object.context }}</h3>{% endif %}
+    <div class="quip" id="quip{{ object.id }}">
       {% for quote in object.quotes.all %}
-      <blockquote>
-        {{quote.text}}
-        <cite>{{quote.speaker.name}}</cite>
+      <blockquote id="quote{{ quote.id }}">
+        <p>{{ quote.text|typogrify }}</p>
+        <footer class="text-right"><cite class="speaker{{ quote.speaker.id }}">{{ quote.speaker.name|typogrify }}</cite></footer>
       </blockquote>
       {% endfor %}
-
     </div>
   </div>
-
+      <p class="text-center quip-date">{{ object.date }}</p>
+      {% if object.context %}<p class="text-center quip-context">{{ object.context|typogrify }}</p>{% endif %}
 </div>
+{% endautoescape %}
 {% endblock content %}
 
+{% block javascript %}
+    <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+{% endblock %}

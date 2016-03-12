@@ -64,7 +64,8 @@ module.exports = function (grunt) {
               precision: 10
           },
           files: {
-              '<%= paths.css %>/project.css': '<%= paths.sass %>/project.scss'
+              '<%= paths.css %>/project.css': '<%= paths.sass %>/project.scss',
+              '<%= paths.css %>/quips-basicblue.css': '<%= paths.sass %>/quips-basicblue.scss'
           },
       },
       dist: {
@@ -74,7 +75,8 @@ module.exports = function (grunt) {
               precision: 10
           },
           files: {
-              '<%= paths.css %>/project.css': '<%= paths.sass %>/project.scss'
+              '<%= paths.css %>/project.css': '<%= paths.sass %>/project.scss',
+              '<%= paths.css %>/quips-basicblue.css': '<%= paths.sass %>/quips-basicblue.scss'
           },
       }
     },

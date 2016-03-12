@@ -1,0 +1,62 @@
+@import url(https://fonts.googleapis.com/css?family=Caudex:400,400italic|Petit+Formal+Script);
+body {
+  background-color: #cde; }
+
+.quip {
+  margin: 20px; }
+
+@media (min-width: 768px) {
+  .quip:first-of-type {
+    margin-top: 60px; }
+  .container {
+    width: 500px;
+    margin-left: auto;
+    margin-right: auto; } }
+
+.quip-date, .quip-context {
+  font-size: 20px;
+  font-family: 'Petit Formal Script', cursive;
+  color: #555;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.7); }
+
+.quip blockquote {
+  position: relative;
+  background: #eee;
+  border: none;
+  box-shadow: inset 0 -2px 0 rgba(88, 147, 200, 0.7), 0 0px 30px rgba(0, 0, 0, 0.3);
+  border-radius: 5px;
+  font-size: 20px;
+  padding: 30px 50px 20px 50px; }
+
+.quip blockquote p:before {
+  content: '\201C';
+  font-family: serif;
+  font-style: normal;
+  font-weight: 700;
+  position: absolute;
+  display: block;
+  font-size: 60px;
+  top: 0px;
+  left: 10px;
+  color: rgba(88, 147, 200, 0.5);
+  text-shadow: 3px 6px 10px rgba(0, 0, 0, 0.1); }
+
+.quip blockquote p:after {
+  content: '\201D';
+  font-family: serif;
+  font-style: normal;
+  font-weight: 700;
+  position: absolute;
+  display: block;
+  font-size: 60px;
+  top: 00px;
+  right: 10px;
+  color: rgba(88, 147, 200, 0.2);
+  text-shadow: 3px 6px 10px rgba(0, 0, 0, 0.1); }
+
+.quip blockquote p {
+  margin: 0 10px 10px 0; }
+
+.quip blockquote p, .quip blockquote cite {
+  font-family: 'Caudex', serif;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.9); }
