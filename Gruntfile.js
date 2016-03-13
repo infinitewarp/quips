@@ -84,7 +84,7 @@ module.exports = function (grunt) {
     //see https://github.com/nDmitry/grunt-postcss
     postcss: {
       options: {
-        map: true, // inline sourcemaps
+        map: false, // inline sourcemaps
 
         processors: [
           require('pixrem')(), // add fallbacks for rem units
