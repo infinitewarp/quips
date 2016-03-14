@@ -21,14 +21,6 @@ django-floppyforms==1.6.1
 # Models
 django-model-utils==2.4
 
-# Images
-Pillow==3.1.1
-
-# For user registration, either via email or social
-# Well-built with regular release cycles!
-django-allauth==0.24.1
-
-
 # Python-PostgreSQL Database Adapter
 psycopg2==2.6.1
 
