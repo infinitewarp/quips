@@ -215,5 +215,5 @@ AUTOSLUG_SLUGIFY_FUNCTION = 'slugify.slugify'
 ADMIN_URL = r'^admin/'
 
 # Your common stuff: Below this line define 3rd party library settings
-DEFAULT_QUIP_UUID = env('DEFAULT_QUIP_UUID')
+DEFAULT_QUIP_UUID = env('DEFAULT_QUIP_UUID', default=None)
 RANDOM_QUIP_CACHE_DURATION = env.int('RANDOM_QUIP_CACHE_DURATION', default=60 * 60 * 24)  # default to one day
