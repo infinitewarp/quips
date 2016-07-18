@@ -38,5 +38,11 @@ class Quote(OrderedModel):
     speaker = models.ForeignKey(Speaker)
     order_with_respect_to = 'quip'
 
+    @property
+    def is_slash_me(self):
+        return self.text[0:4] == '/me '
+
     def __str__(self):
+        if self.is_slash_me:
+            return self.text[4:]
         return self.text

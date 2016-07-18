@@ -77,6 +77,15 @@ body {
   margin: 0 10px 10px 0;
 }
 
+.quip blockquote.action p:before, .quip blockquote.action p:after {
+  content: '';
+}
+
+.quip blockquote.action p {
+  font-style: italic;
+  color: #777;
+}
+
 .quip blockquote p, .quip blockquote cite {
   font-family: 'Caudex', serif;
   text-shadow: 0 1px 1px rgba(255,255,255,0.9);
