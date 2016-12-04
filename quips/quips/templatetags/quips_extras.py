@@ -4,7 +4,10 @@ import random
 from django import template
 from memoize import memoize
 
+register = template.Library()
 
+
+@register.filter(name='obfuscate_name')
 @memoize(timeout=5)
 def obfuscate_name(value):
     names = value.split(' ')
@@ -24,6 +27,7 @@ def obfuscate_name(value):
     return new_name
 
 
+@register.filter(name='rot13_name')
 @memoize()
 def rot13_name(value):
     names = value.split(' ')
@@ -38,6 +42,17 @@ def rot13_name(value):
     return new_name
 
 
-register = template.Library()
-register.filter('obfuscate_name', obfuscate_name)
-register.filter('rot13_name', rot13_name)
+# TODO Make this configurable/DB-driven?
+GIPHYS = [
+    '<iframe src="//giphy.com/embed/LPn77YyDIqfhm?html5=true&hideSocial=true" width="480" height="270" frameborder="0" class="giphy-embed" allowfullscreen=""></iframe>',
+    '<iframe src="//giphy.com/embed/6OWIl75ibpuFO?html5=true&hideSocial=true" width="480" height="360" frameborder="0" class="giphy-embed" allowfullscreen=""></iframe>',
+    '<iframe src="//giphy.com/embed/52VjAeGgj78GY?html5=true&hideSocial=true" width="480" height="377" frameborder="0" class="giphy-embed" allowfullscreen=""></iframe>',
+    '<iframe src="//giphy.com/embed/b1NpJFw89s7UA?html5=true&hideSocial=true" width="480" height="355" frameborder="0" class="giphy-embed" allowfullscreen=""></iframe>',
+    '<iframe src="//giphy.com/embed/5MuY6NkkbiASY?html5=true&hideSocial=true" width="480" height="363" frameborder="0" class="giphy-embed" allowfullscreen=""></iframe>',
+    '<iframe src="//giphy.com/embed/FRNuP6zwkDhcc?html5=true&hideSocial=true" width="480" height="384" frameborder="0" class="giphy-embed" allowfullscreen=""></iframe>',
+]
+
+
+@register.simple_tag
+def random_error_giphy(*args, **kwargs):
+    return random.choice(GIPHYS)

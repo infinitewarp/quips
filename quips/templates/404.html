@@ -1,9 +1,34 @@
 {% extends "base.html" %}
+{% load static %}
+{% load typogrify_tags %}
+{% load quips_extras %}
 
-{% block title %}Page Not found{% endblock %}
+{% block title %}404 Not Found{% endblock %}
+{% block css %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link href="{% static 'css/quips-basicblue.css' %}" rel="stylesheet">
+{% endblock %}
+{% block angular %}{% endblock angular %}
 
+{% block navbar %}{% endblock navbar %}
 {% block content %}
-<h1>Page Not found</h1>
-
-<p>This is not the page you were looking for.</p>
+{% autoescape off %}
+<div>
+  <div class="row">
+    <div class="quip">
+        {% random_error_giphy %}
+    </div>
+  </div>
+  <p class="text-center quip-context">quip not found</p>
+</div>
+{% endautoescape %}
 {% endblock content %}
+
+{% block footer %}
+<a href="{% url 'quips:random' %}"><span class="glyphicon glyphicon-fire randomizer"></span></a>
+{% endblock footer %}
+
+{% block javascript %}
+    <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+{% endblock %}
