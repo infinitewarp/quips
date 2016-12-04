@@ -1,3 +1,4 @@
+@import 'sticky-footer';
 @import url(https://fonts.googleapis.com/css?family=Caudex:400,400italic|Petit+Formal+Script);
 
 body {
@@ -167,4 +168,14 @@ body {
 .quip-link span:hover {
   transform: rotate(360deg);
   -webkit-transform: rotate(360deg);
+}
+
+.randomizer {
+  transition: all 0.25s ease-in-out;
+  -webkit-transition: all 0.25s ease;
+}
+
+.randomizer:hover {
+  transform: scale(2.0);
+  -webkit-transform: scale(2.0);
 }
