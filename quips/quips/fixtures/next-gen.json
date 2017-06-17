@@ -1,0 +1,122 @@
+[
+    {
+        "model": "quips.speaker",
+        "pk": 1,
+        "fields":
+        {
+            "name": "Jean-Luc Picard"
+        }
+    },
+    {
+        "model": "quips.speaker",
+        "pk": 2,
+        "fields":
+        {
+            "name": "William Riker"
+        }
+    },
+    {
+        "model": "quips.speaker",
+        "pk": 3,
+        "fields":
+        {
+            "name": "The Borg"
+        }
+    },
+    {
+        "model": "quips.quip",
+        "pk": 1,
+        "fields":
+        {
+            "uuid": "a0e03661-9d30-4b2f-a09a-6cac30ff1d57",
+            "context": "The First Duty",
+            "date": "1992-03-28"
+        }
+    },
+    {
+        "model": "quips.quip",
+        "pk": 2,
+        "fields":
+        {
+            "uuid": "ca9ab928-9a10-4e4b-b5e8-6e72afc12cac",
+            "context": "Datalore",
+            "date": "1988-01-16"
+        }
+    },
+    {
+        "model": "quips.quip",
+        "pk": 3,
+        "fields":
+        {
+            "uuid": "ec60838e-8e7c-40f2-8b2d-08080f5afc56",
+            "context": "The Best of Both Worlds, Part 1",
+            "date": "1990-06-18"
+        }
+    },
+    {
+        "model": "quips.quote",
+        "pk": 1,
+        "fields":
+        {
+            "order": 0,
+            "text": "The first duty of every Starfleet officer is to the truth, whether it's scientific truth or historical truth or personal truth!",
+            "quip": 1,
+            "speaker": 1
+        }
+    },
+    {
+        "model": "quips.quote",
+        "pk": 2,
+        "fields":
+        {
+            "order": 0,
+            "text": "Number One, have you ever considered whether Data is more human or less human than we want?",
+            "quip": 2,
+            "speaker": 1
+        }
+    },
+    {
+        "model": "quips.quote",
+        "pk": 3,
+        "fields":
+        {
+            "order": 1,
+            "text": "I only wish we were all as well-balanced, sir.",
+            "quip": 2,
+            "speaker": 2
+        }
+    },
+    {
+        "model": "quips.quote",
+        "pk": 4,
+        "fields":
+        {
+            "order": 2,
+            "text": "Agreed.",
+            "quip": 2,
+            "speaker": 1
+        }
+    },
+    {
+        "model": "quips.quote",
+        "pk": 5,
+        "fields":
+        {
+            "order": 0,
+            "text": "I am Locutus of Borg. Resistance is futile. Your life as it has been is over. From this time forward, you will service us.",
+            "quip": 3,
+            "speaker": 1
+        }
+    },
+    {
+        "model": "quips.quote",
+        "pk": 6,
+        "fields":
+        {
+            "order": 1,
+            "text": "Mister Worf: Fire.",
+            "quip": 3,
+            "speaker": 2
+        }
+    }
+]
