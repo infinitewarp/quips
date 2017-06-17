@@ -1,24 +1,26 @@
 version: '2'
+
+volumes:
+  postgres_data: {}
+  postgres_backup: {}
+
 services:
   postgres:
     build: ./compose/postgres
     volumes:
-      - /data/quips/postgres:/var/lib/postgresql/data
-      - /data/quips/postgres-backups:/backups
+      - postgres_data:/var/lib/postgresql/data
+      - postgres_backup:/backups
     env_file: .env
 
   django:
     build:
       context: .
-    user: django
+      dockerfile: ./compose/django/Dockerfile
     depends_on:
       - postgres
       - redis
     command: /gunicorn.sh
     env_file: .env
-    depends_on:
-      - postgres
-      - redis
 
   nginx:
     build: ./compose/nginx
@@ -29,4 +31,3 @@ services:
 
   redis:
     image: redis:3.0
-  
