@@ -43,16 +43,19 @@ class QuipFilteredRandomView(DetailView):
         if queryset is None:
             queryset = self.get_queryset()
         queryset = self.filter_by_speaker_id(queryset)
+        if queryset.count() == 0:
+            raise Http404()
         return self.first_random(queryset)
 
     def filter_by_speaker_id(self, queryset):
         speaker_id = self.request.GET.get('speaker_id')
         if speaker_id is None:
             return queryset
-        speaker = Speaker.objects.filter(id=speaker_id)
-        if speaker is None:
-            return queryset
-        queryset = queryset.filter(quotes__speaker=speaker)
+        try:
+            speaker = Speaker.objects.filter(pk=speaker_id).first()
+            queryset = queryset.filter(quotes__speaker=speaker)
+        except queryset.model.DoesNotExist:
+            raise Http404()
         return queryset
 
     def first_random(self, queryset):
