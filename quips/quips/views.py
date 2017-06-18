@@ -1,12 +1,9 @@
 from django.conf import settings
-from django.core.urlresolvers import reverse
-from django.http import HttpResponseRedirect, Http404
+from django.http import Http404
 from django.utils.translation import ugettext as _
-from django.views.generic import View
 from django.views.generic.detail import DetailView
-from memoize import memoize
 
-from quips.quips.models import Quip
+from quips.quips.models import Quip, Speaker
 
 
 class QuipDetailView(DetailView):
@@ -39,23 +36,24 @@ class QuipDefaultView(QuipDetailView):
         return super(QuipDefaultView, self).get_object(queryset)
 
 
-class QuipCachedRandomView(QuipDetailView):
+class QuipFilteredRandomView(DetailView):
+    model = Quip
+
     def get_object(self, queryset=None):
-        self.kwargs['uuid'] = self.choose_uuid()
-        return super(QuipCachedRandomView, self).get_object(queryset)
+        if queryset is None:
+            queryset = self.get_queryset()
+        queryset = self.filter_by_speaker_id(queryset)
+        return self.first_random(queryset)
 
-    @memoize(settings.RANDOM_QUIP_CACHE_DURATION)
-    def choose_uuid(self):
-        quip = self.get_queryset().all().order_by('?').first()
-        if not quip:
-            raise Http404()
-        return quip.uuid
+    def filter_by_speaker_id(self, queryset):
+        speaker_id = self.request.GET.get('speaker_id')
+        if speaker_id is None:
+            return queryset
+        speaker = Speaker.objects.filter(id=speaker_id)
+        if speaker is None:
+            return queryset
+        queryset = queryset.filter(quotes__speaker=speaker)
+        return queryset
 
-
-class QuipRandomView(View):
-    def get(self, request, *args, **kwargs):
-        quip = Quip.objects.all().order_by('?').first()
-        if not quip:
-            raise Http404()
-        return HttpResponseRedirect(reverse("quips:detail",
-                       kwargs={"uuid": quip.uuid}))
+    def first_random(self, queryset):
+        return queryset.order_by('?').first()

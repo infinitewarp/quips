@@ -13,7 +13,7 @@ urlpatterns = [
     ),
     url(
         regex=r'^random/$',
-        view=views.QuipCachedRandomView.as_view(),
+        view=views.QuipFilteredRandomView.as_view(),
         name='random'
     ),
     url(
