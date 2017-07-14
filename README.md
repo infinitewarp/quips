@@ -12,7 +12,7 @@ Silly web app for silly quips. :tada:
 
 Install and start Docker:
 
-    brew install docker
+    brew cask install docker
     open -a Docker
 
 Run the app with compose:
