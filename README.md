@@ -15,6 +15,13 @@ Install and start Docker:
     brew cask install docker
     open -a Docker
 
+Alternatively, using Docker Toolbox for older CPUs that don't have VT-x and
+VT-d:
+
+    brew cask install docker-toolbox
+    docker-machine create -d "virtualbox" mydockermachine
+    eval $(docker-machine env mydockermachine)
+
 Run the app with compose:
 
     docker-compose -f dev.yml up --build
