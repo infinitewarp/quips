@@ -2,13 +2,15 @@
 -r base.txt
 
 
+# TODO maybe actually write some tests so this is relevant?
 
-coverage==4.0.3
-django_coverage_plugin==1.2.2
-flake8==2.5.4
-django-test-plus==1.0.12
-factory_boy==2.6.1
+# coverage
+# django_coverage_plugin
+# flake8
+# django-test-plus
+# django-test-plus
+# factory_boy
 
-# pytest!
-pytest-django==2.9.1
-pytest-sugar==0.5.1
+# pytest
+# pytest-django
+# pytest-sugar
