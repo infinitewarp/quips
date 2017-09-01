@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.core.exceptions import ValidationError
 from django.http import Http404
 from django.utils.translation import ugettext as _
 from django.views.generic.detail import DetailView
@@ -18,12 +19,12 @@ class QuipDetailView(DetailView):
             queryset = self.get_queryset()
 
         uuid = self.kwargs.get('uuid')
-        queryset = queryset.filter(uuid=uuid)
-
         try:
+            queryset = queryset.filter(uuid=uuid)
             obj = queryset.get()
-        except (ValueError, queryset.model.DoesNotExist):
-            # ValueError is to deal with malformed inputs that aren't valid uuids
+        except (ValidationError, ValueError, queryset.model.DoesNotExist):
+            # ValidationError and ValueError are to deal with malformed inputs
+            # that aren't valid uuids.
             raise Http404(_("No %(verbose_name)s found matching the query") %
                           {'verbose_name': queryset.model._meta.verbose_name})
 
