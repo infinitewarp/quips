@@ -69,6 +69,8 @@ class QuipRandomSpeakerView(QuipRandomView):
 
 
 class QuipRandomCliqueSpeakerView(QuipRandomView):
+    template_name = 'quips/quip_detail_in_clique.html'
+
     def get_queryset(self):
         queryset = super(QuipRandomCliqueSpeakerView, self).get_queryset()
         queryset = self.filter_by_clique_and_speaker_id(queryset)
@@ -84,3 +86,8 @@ class QuipRandomCliqueSpeakerView(QuipRandomView):
             speakers = speakers.filter(pk=speaker_id)
         queryset = queryset.filter(quotes__speaker__in=speakers)
         return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super(QuipRandomCliqueSpeakerView, self).get_context_data()
+        context['slug'] = self.kwargs.get('slug')
+        return context

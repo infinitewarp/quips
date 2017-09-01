@@ -1,0 +1,5 @@
+{% extends "quips/quip_detail.html" %}
+
+{% block footer %}
+<a href="{% url 'quips:cliquerandom' slug %}"><span class="glyphicon glyphicon-fire randomizer"></span></a>
+{% endblock footer %}
