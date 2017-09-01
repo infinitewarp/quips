@@ -1,0 +1,263 @@
+[
+    {
+        "model": "quips.clique",
+        "pk": 1,
+        "fields": {
+            "name": "TNG",
+            "slug": "tng"
+        }
+    },
+    {
+        "model": "quips.clique",
+        "pk": 2,
+        "fields": {
+            "name": "TOS",
+            "slug": "tos"
+        }
+    },
+    {
+        "model": "quips.speaker",
+        "pk": 1,
+        "fields": {
+            "name": "Jean-Luc Picard",
+            "cliques": [
+                1
+            ]
+        }
+    },
+    {
+        "model": "quips.speaker",
+        "pk": 2,
+        "fields": {
+            "name": "William Riker",
+            "cliques": [
+                1
+            ]
+        }
+    },
+    {
+        "model": "quips.speaker",
+        "pk": 3,
+        "fields": {
+            "name": "The Borg",
+            "cliques": [
+                1
+            ]
+        }
+    },
+    {
+        "model": "quips.speaker",
+        "pk": 4,
+        "fields": {
+            "name": "Spock",
+            "cliques": [
+                1,
+                2
+            ]
+        }
+    },
+    {
+        "model": "quips.speaker",
+        "pk": 5,
+        "fields": {
+            "name": "Harcourt Fenton Mudd",
+            "cliques": [
+                2
+            ]
+        }
+    },
+    {
+        "model": "quips.speaker",
+        "pk": 6,
+        "fields": {
+            "name": "James T. Kirk",
+            "cliques": [
+                2
+            ]
+        }
+    },
+    {
+        "model": "quips.quip",
+        "pk": 1,
+        "fields": {
+            "uuid": "a0e03661-9d30-4b2f-a09a-6cac30ff1d57",
+            "context": "The First Duty",
+            "date": "1992-03-28"
+        }
+    },
+    {
+        "model": "quips.quip",
+        "pk": 2,
+        "fields": {
+            "uuid": "ca9ab928-9a10-4e4b-b5e8-6e72afc12cac",
+            "context": "Datalore",
+            "date": "1988-01-16"
+        }
+    },
+    {
+        "model": "quips.quip",
+        "pk": 3,
+        "fields": {
+            "uuid": "ec60838e-8e7c-40f2-8b2d-08080f5afc56",
+            "context": "The Best of Both Worlds, Part 1",
+            "date": "1990-06-18"
+        }
+    },
+    {
+        "model": "quips.quip",
+        "pk": 4,
+        "fields": {
+            "uuid": "be818e15-a24f-4688-8c37-a71fbda0198d",
+            "context": "Unification, Part 2",
+            "date": "1991-11-09"
+        }
+    },
+    {
+        "model": "quips.quip",
+        "pk": 5,
+        "fields": {
+            "uuid": "77568559-9fc0-433b-b19e-0a82291964f0",
+            "context": "I, Mudd",
+            "date": "1967-11-03"
+        }
+    },
+    {
+        "model": "quips.quip",
+        "pk": 6,
+        "fields": {
+            "uuid": "f3cc03ec-4953-42c4-8f3e-47f9e324682b",
+            "context": "The City on the Edge of Forever",
+            "date": "1967-04-06"
+        }
+    },
+    {
+        "model": "quips.quote",
+        "pk": 1,
+        "fields": {
+            "order": 0,
+            "text": "The first duty of every Starfleet officer is to the truth, whether it's scientific truth or historical truth or personal truth!",
+            "quip": 1,
+            "speaker": 1
+        }
+    },
+    {
+        "model": "quips.quote",
+        "pk": 2,
+        "fields": {
+            "order": 0,
+            "text": "Number One, have you ever considered whether Data is more human or less human than we want?",
+            "quip": 2,
+            "speaker": 1
+        }
+    },
+    {
+        "model": "quips.quote",
+        "pk": 3,
+        "fields": {
+            "order": 1,
+            "text": "I only wish we were all as well-balanced, sir.",
+            "quip": 2,
+            "speaker": 2
+        }
+    },
+    {
+        "model": "quips.quote",
+        "pk": 4,
+        "fields": {
+            "order": 2,
+            "text": "Agreed.",
+            "quip": 2,
+            "speaker": 1
+        }
+    },
+    {
+        "model": "quips.quote",
+        "pk": 5,
+        "fields": {
+            "order": 0,
+            "text": "I am Locutus of Borg. Resistance is futile. Your life as it has been is over. From this time forward, you will service us.",
+            "quip": 3,
+            "speaker": 1
+        }
+    },
+    {
+        "model": "quips.quote",
+        "pk": 6,
+        "fields": {
+            "order": 1,
+            "text": "Mister Worf: Fire.",
+            "quip": 3,
+            "speaker": 2
+        }
+    },
+    {
+        "model": "quips.quote",
+        "pk": 7,
+        "fields": {
+            "order": 0,
+            "text": "Ambassador, with great respect for all that you've achieved on behalf of the Federation, this sort of... cowboy diplomacy will not easily be tolerated anymore.",
+            "quip": 4,
+            "speaker": 1
+        }
+    },
+    {
+        "model": "quips.quote",
+        "pk": 8,
+        "fields": {
+            "order": 1,
+            "text": "\"Cowboy diplomacy\"?",
+            "quip": 4,
+            "speaker": 4
+        }
+    },
+    {
+        "model": "quips.quote",
+        "pk": 9,
+        "fields": {
+            "order": 0,
+            "text": "The key word in your entire peroration, Mr. Spock, was... d-d-d-DEATH. Barbarians! Well, of course I... left.",
+            "quip": 5,
+            "speaker": 5
+        }
+    },
+    {
+        "model": "quips.quote",
+        "pk": 10,
+        "fields": {
+            "order": 1,
+            "text": "He broke jail.",
+            "quip": 5,
+            "speaker": 6
+        }
+    },
+    {
+        "model": "quips.quote",
+        "pk": 11,
+        "fields": {
+            "order": 0,
+            "text": "My friend... is obviously Chinese. I see you've noticed the ears. They're... actually easy to explain...",
+            "quip": 6,
+            "speaker": 6
+        }
+    },
+    {
+        "model": "quips.quote",
+        "pk": 12,
+        "fields": {
+            "order": 1,
+            "text": "Perhaps the unfortunate accident I had as a child...",
+            "quip": 6,
+            "speaker": 4
+        }
+    },
+    {
+        "model": "quips.quote",
+        "pk": 13,
+        "fields": {
+            "order": 2,
+            "text": "...the unfortunate accident he had as a child. He caught his head in a mechanical... rice picker... but, fortunately, there was an American missionary living close by who was actually a, uh, skilled, uh, plastic surgeon in civilian life...",
+            "quip": 6,
+            "speaker": 6
+        }
+    }
+]

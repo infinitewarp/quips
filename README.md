@@ -28,7 +28,7 @@ Run the app with compose:
 
 Loading fixture data:
 
-    docker-compose -f dev.yml run django /app/manage.py loaddata next-gen
+    docker-compose -f dev.yml run django /app/manage.py loaddata trek
 
 Creating admin user:
 

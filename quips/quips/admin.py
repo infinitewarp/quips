@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 from django.contrib import admin
 from ordered_model.admin import OrderedModelAdmin
 
-from quips.quips.models import Quip, Quote, Speaker
+from quips.quips.models import Clique, Quip, Quote, Speaker
 
 
 class QuoteInline(admin.TabularInline):
@@ -19,6 +19,8 @@ class QuoteAdmin(OrderedModelAdmin):
 class QuipAdmin(admin.ModelAdmin):
     inlines = [QuoteInline]
 
+
 admin.site.register(Quote, QuoteAdmin)
 admin.site.register(Quip, QuipAdmin)
 admin.site.register(Speaker)
+admin.site.register(Clique)

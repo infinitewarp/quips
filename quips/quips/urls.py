@@ -13,8 +13,13 @@ urlpatterns = [
     ),
     url(
         regex=r'^random/$',
-        view=views.QuipFilteredRandomView.as_view(),
+        view=views.QuipRandomSpeakerView.as_view(),
         name='random'
+    ),
+    url(
+        regex=r'^clique/(?P<slug>.+)/$',
+        view=views.QuipRandomCliqueSpeakerView.as_view(),
+        name='cliquerandom'
     ),
     url(
         regex=r'^(?P<uuid>[\d\w\-]+)/$',

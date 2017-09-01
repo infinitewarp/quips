@@ -5,6 +5,22 @@ import uuid as uuid
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from ordered_model.models import OrderedModel
+from slugify import slugify
+
+
+class Clique(models.Model):
+    """
+    Clique is a grouping of Speakers.
+    """
+    name = models.CharField(_('Name of Clique'), blank=False, max_length=255)
+    slug = models.SlugField(max_length=255, unique=True)
+
+    def __str__(self):
+        return self.name
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(Clique, self).save(*args, **kwargs)
 
 
 class Speaker(models.Model):
@@ -12,6 +28,7 @@ class Speaker(models.Model):
     Speaker is the person who said the Quote.
     """
     name = models.CharField(_('Name of Speaker'), blank=False, max_length=255)
+    cliques = models.ManyToManyField(Clique)
 
     def __str__(self):
         return self.name
