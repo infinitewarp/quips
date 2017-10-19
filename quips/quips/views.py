@@ -103,16 +103,38 @@ class QuipRandomCliqueSpeakerView(QuipRandomView):
         return context
 
 
+class SpeakerNameNotFound(Exception):
+    pass
+
+
 @method_decorator(csrf_exempt, name='dispatch')
 class QuipSlackView(QuipRandomObjectBaseMixin, View):
+
+    def get_queryset(self):
+        queryset = super(QuipSlackView, self).get_queryset()
+        queryset = self.filter_by_speaker_name(queryset)
+        return queryset
+
+    def filter_by_speaker_name(self, queryset):
+        speaker_name = self.request.POST.get('text')
+        if speaker_name is None or len(speaker_name.strip()) == 0:
+            return queryset
+        try:
+            speaker = Speaker.objects.filter(name__icontains=speaker_name).first()
+            if speaker is None:
+                raise SpeakerNameNotFound()
+            queryset = queryset.filter(quotes__speaker=speaker)
+        except queryset.model.DoesNotExist:
+            raise SpeakerNameNotFound()
+        return queryset
+
     @staticmethod
     def _format_quote(quote):
         if quote.is_slash_me:
             return '{} {}'.format(obfuscate_name(str(quote.speaker)), quote)
         return '{}: {}'.format(obfuscate_name(str(quote.speaker)), quote)
 
-    def post(self, request, *args, **kwargs):
-        quip = self.get_object()
+    def _build_formatted_response(self, quip, request):
         lines = [self._format_quote(quote) for quote in quip.quotes.all()]
         if quip.context:
             context = quip.context.replace('_', r'\_')
@@ -122,7 +144,20 @@ class QuipSlackView(QuipRandomObjectBaseMixin, View):
         lines.append(request.build_absolute_uri(reverse('quips:detail', args=(quip.uuid,))))
         text = '\n'.join(lines)
         response = {
-            "response_type": "in_channel",
-            "text": text,
+            'response_type': 'in_channel',
+            'text': text,
         }
+        return response
+
+    def post(self, request, *args, **kwargs):
+        try:
+            quip = self.get_object()
+        except SpeakerNameNotFound:
+            response = {
+                'response_type': 'ephemeral',
+                'text': 'No quips found involving speaker name like `{}`.'.format(request.POST.get('text'))
+            }
+            return JsonResponse(response)
+
+        response = self._build_formatted_response(quip, request)
         return JsonResponse(response)
