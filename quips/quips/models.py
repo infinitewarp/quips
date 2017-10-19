@@ -38,7 +38,7 @@ class Quip(models.Model):
     """
     Quip is the curious exchange of one or more Quotes with optional context.
     """
-    uuid = models.UUIDField(unique=True, default=uuid.uuid4, editable=False)
+    uuid = models.UUIDField(_('UUID'), unique=True, default=uuid.uuid4, editable=False)
     context = models.CharField(_('Context of the Quote'), blank=True, max_length=255)
     date = models.DateField(_('Date of the Quote'), null=False)
 

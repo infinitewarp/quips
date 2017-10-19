@@ -18,6 +18,7 @@ class QuoteAdmin(OrderedModelAdmin):
 
 class QuipAdmin(admin.ModelAdmin):
     inlines = [QuoteInline]
+    readonly_fields = ['uuid']
 
 
 admin.site.register(Quote, QuoteAdmin)
