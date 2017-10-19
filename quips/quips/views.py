@@ -1,10 +1,15 @@
 from django.conf import settings
 from django.core.exceptions import ValidationError
-from django.http import Http404
+from django.http import Http404, JsonResponse
+from django.urls import reverse
+from django.utils.decorators import method_decorator
 from django.utils.translation import ugettext as _
-from django.views.generic.detail import DetailView
+from django.views import View
+from django.views.decorators.csrf import csrf_exempt
+from django.views.generic.detail import DetailView, SingleObjectMixin
 
 from quips.quips.models import Clique, Quip, Speaker
+from quips.quips.templatetags.quips_extras import obfuscate_name
 
 
 class QuipDetailView(DetailView):
@@ -37,7 +42,7 @@ class QuipDefaultView(QuipDetailView):
         return super(QuipDefaultView, self).get_object(queryset)
 
 
-class QuipRandomView(DetailView):
+class QuipRandomObjectBaseMixin(SingleObjectMixin):
     model = Quip
 
     def get_object(self, queryset=None):
@@ -49,6 +54,10 @@ class QuipRandomView(DetailView):
 
     def first_random(self, queryset):
         return queryset.order_by('?').first()
+
+
+class QuipRandomView(QuipRandomObjectBaseMixin, DetailView):
+    pass
 
 
 class QuipRandomSpeakerView(QuipRandomView):
@@ -92,3 +101,28 @@ class QuipRandomCliqueSpeakerView(QuipRandomView):
         context = super(QuipRandomCliqueSpeakerView, self).get_context_data()
         context['slug'] = self.kwargs.get('slug')
         return context
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class QuipSlackView(QuipRandomObjectBaseMixin, View):
+    @staticmethod
+    def _format_quote(quote):
+        if quote.is_slash_me:
+            return '{} {}'.format(obfuscate_name(str(quote.speaker)), quote)
+        return '{}: {}'.format(obfuscate_name(str(quote.speaker)), quote)
+
+    def post(self, request, *args, **kwargs):
+        quip = self.get_object()
+        lines = [self._format_quote(quote) for quote in quip.quotes.all()]
+        if quip.context:
+            context = quip.context.replace('_', r'\_')
+            lines.append('_{}, {}_'.format(quip.date, context))
+        else:
+            lines.append('_{}_'.format(quip.date))
+        lines.append(request.build_absolute_uri(reverse('quips:detail', args=(quip.uuid,))))
+        text = '\n'.join(lines)
+        response = {
+            "response_type": "in_channel",
+            "text": text,
+        }
+        return JsonResponse(response)

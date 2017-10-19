@@ -22,6 +22,11 @@ urlpatterns = [
         name='cliquerandom'
     ),
     url(
+        regex=r'^slackbot/$',
+        view=views.QuipSlackView.as_view(),
+        name='slackbot'
+    ),
+    url(
         regex=r'^(?P<uuid>[\d\w\-]+)/$',
         view=views.QuipDetailView.as_view(),
         name='detail'
