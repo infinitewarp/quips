@@ -29,21 +29,6 @@ def obfuscate_name(value, delimeter=' '):
     return new_name
 
 
-@register.filter(name='rot13_name')
-@memoize()
-def rot13_name(value):
-    names = value.split(' ')
-
-    def shuffle_word(word):
-        if not word or len(word) < 3:
-            return word
-        guts = word[1:-1]
-        return word[0] + codecs.encode(guts, 'rot13') + word[-1]
-
-    new_name = ' '.join([shuffle_word(word) for word in names])
-    return new_name
-
-
 # TODO Make this configurable/DB-driven?
 GIPHYS = [
     '<iframe src="//giphy.com/embed/LPn77YyDIqfhm?html5=true&hideSocial=true" width="480" height="270" frameborder="0" class="giphy-embed" allowfullscreen=""></iframe>',
