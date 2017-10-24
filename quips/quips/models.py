@@ -29,6 +29,7 @@ class Speaker(models.Model):
     """
     name = models.CharField(_('Name of Speaker'), blank=False, max_length=255)
     cliques = models.ManyToManyField(Clique)
+    should_obfuscate = models.BooleanField(_('Should the displayed name be obfuscated'), default=True)
 
     def __str__(self):
         return self.name

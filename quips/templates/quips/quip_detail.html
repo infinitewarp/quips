@@ -19,12 +19,25 @@
       {% for quote in object.quotes.all %}
       {% if quote.is_slash_me %}
       <blockquote class="action">
-        <p>{{ quote.speaker.name|obfuscate_name }} {{ quote|typogrify }}</p>
+        <p>
+          {% if quote.speaker.should_obfuscate %}
+          {{ quote.speaker.name|obfuscate_name }}
+          {% else %}
+          {{ quote.speaker.name }}
+          {% endif %}
+          {{ quote|typogrify }}
+        </p>
       </blockquote>
       {% else %}
       <blockquote>
         <p>{{ quote|typogrify }}</p>
-        <footer class="text-right"><cite>{{ quote.speaker.name|obfuscate_name|typogrify }}</cite></footer>
+        <footer class="text-right"><cite>
+          {% if quote.speaker.should_obfuscate %}
+          {{ quote.speaker.name|obfuscate_name|typogrify }}
+          {% else %}
+          {{ quote.speaker.name|typogrify }}
+          {% endif %}
+        </cite></footer>
       </blockquote>
       {% endif %}
       {% endfor %}
