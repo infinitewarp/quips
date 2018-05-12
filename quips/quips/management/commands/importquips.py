@@ -61,7 +61,6 @@ class Command(BaseCommand):
 
         Additional quotes and speakers may repeat in pairs after the first.
         """
-
         date, context = row[0].decode('utf-8'), row[1].decode('utf-8')
         quip = Quip(date=date, context=context)
         quip.save()

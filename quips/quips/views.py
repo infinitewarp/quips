@@ -17,6 +17,8 @@ class QuipDetailView(DetailView):
 
     def get_object(self, queryset=None):
         """
+        Return the object the view is displaying.
+
         Override default behavior from django.views.generic.SingleObjectMixin
         to exclusively get the Quip object by its uuid.
         """
@@ -30,7 +32,7 @@ class QuipDetailView(DetailView):
         except (ValidationError, ValueError, queryset.model.DoesNotExist):
             # ValidationError and ValueError are to deal with malformed inputs
             # that aren't valid uuids.
-            raise Http404(_("No %(verbose_name)s found matching the query") %
+            raise Http404(_('No %(verbose_name)s found matching the query') %
                           {'verbose_name': queryset.model._meta.verbose_name})
 
         return obj
