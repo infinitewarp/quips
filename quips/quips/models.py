@@ -9,9 +9,8 @@ from slugify import slugify
 
 
 class Clique(models.Model):
-    """
-    Clique is a grouping of Speakers.
-    """
+    """Clique is a grouping of Speakers."""
+
     name = models.CharField(_('Name of Clique'), blank=False, max_length=255)
     slug = models.SlugField(max_length=255, unique=True)
 
@@ -24,9 +23,8 @@ class Clique(models.Model):
 
 
 class Speaker(models.Model):
-    """
-    Speaker is the person who said the Quote.
-    """
+    """Speaker is the person who said the Quote."""
+
     name = models.CharField(_('Name of Speaker'), blank=False, max_length=255)
     cliques = models.ManyToManyField(Clique)
     should_obfuscate = models.BooleanField(_('Should the displayed name be obfuscated'), default=True)
@@ -36,9 +34,8 @@ class Speaker(models.Model):
 
 
 class Quip(models.Model):
-    """
-    Quip is the curious exchange of one or more Quotes with optional context.
-    """
+    """Quip is the exchange of one or more Quotes with optional context."""
+
     uuid = models.UUIDField(_('UUID'), unique=True, default=uuid.uuid4, editable=False)
     context = models.CharField(_('Context of the Quote'), blank=True, max_length=255)
     date = models.DateField(_('Date of the Quote'), null=False)
@@ -48,9 +45,8 @@ class Quip(models.Model):
 
 
 class Quote(models.Model):
-    """
-    Quote is what a Speaker said as part of a Quip.
-    """
+    """Quote is what a Speaker said as part of a Quip."""
+
     text = models.CharField(_('Text of the Quote'), blank=False, max_length=255)
     quip = models.ForeignKey(Quip, related_name='quotes', on_delete=models.CASCADE)
     speaker = models.ForeignKey(Speaker, on_delete=models.CASCADE)
