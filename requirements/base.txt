@@ -5,7 +5,7 @@
 wheel>=0.29.0
 
 # Latest tested Django
-django<1.12
+django==2.0.5
 
 # Configuration
 django-environ
