@@ -28,7 +28,7 @@ pytz==2018.4
 
 # Redis support
 django-redis==4.9.0
-redis
+redis==2.10.6
 
 # Misc Requirements
 django-ordered-model
