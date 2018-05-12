@@ -66,6 +66,7 @@ class Command(BaseCommand):
         quip.save()
 
         quote_pairs = (pair for pair in zip(row[2::2], row[3::2]) if pair[0])
+        quotes = list()
         for quote_text, speaker_name in quote_pairs:
             speaker, created = Speaker.objects.get_or_create(name=speaker_name.decode('utf-8'))
             # if created:
@@ -73,3 +74,8 @@ class Command(BaseCommand):
             #         'Speaker "{}" did not exist and has been created'.format(speaker_name)))
             quote = Quote(text=quote_text.decode('utf-8'), speaker=speaker, quip=quip)
             quote.save()
+            quotes.append(quote)
+
+        if len(quotes) > 1:
+            quote_order = [quote.id for quote in quotes]
+            quip.set_quote_order(quote_order)
