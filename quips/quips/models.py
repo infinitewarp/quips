@@ -52,8 +52,8 @@ class Quote(OrderedModel):
     Quote is what a Speaker said as part of a Quip.
     """
     text = models.CharField(_('Text of the Quote'), blank=False, max_length=255)
-    quip = models.ForeignKey(Quip, related_name='quotes')
-    speaker = models.ForeignKey(Speaker)
+    quip = models.ForeignKey(Quip, related_name='quotes', on_delete=models.CASCADE)
+    speaker = models.ForeignKey(Speaker, on_delete=models.CASCADE)
     order_with_respect_to = 'quip'
 
     @property
