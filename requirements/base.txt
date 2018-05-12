@@ -27,7 +27,7 @@ unicode-slugify==0.1.3
 pytz==2018.4
 
 # Redis support
-django-redis
+django-redis==4.9.0
 redis
 
 # Misc Requirements
