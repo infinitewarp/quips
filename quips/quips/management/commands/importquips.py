@@ -61,18 +61,18 @@ class Command(BaseCommand):
 
         Additional quotes and speakers may repeat in pairs after the first.
         """
-        date, context = row[0].decode('utf-8'), row[1].decode('utf-8')
+        date, context = row[0], row[1]
         quip = Quip(date=date, context=context)
         quip.save()
 
         quote_pairs = (pair for pair in zip(row[2::2], row[3::2]) if pair[0])
         quotes = list()
         for quote_text, speaker_name in quote_pairs:
-            speaker, created = Speaker.objects.get_or_create(name=speaker_name.decode('utf-8'))
+            speaker, created = Speaker.objects.get_or_create(name=speaker_name)
             # if created:
             #     self.stdout.write(self.style.WARNING(
             #         'Speaker "{}" did not exist and has been created'.format(speaker_name)))
-            quote = Quote(text=quote_text.decode('utf-8'), speaker=speaker, quip=quip)
+            quote = Quote(text=quote_text, speaker=speaker, quip=quip)
             quote.save()
             quotes.append(quote)
 
