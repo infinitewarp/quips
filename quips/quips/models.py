@@ -50,7 +50,9 @@ class Quote(models.Model):
     text = models.CharField(_('Text of the Quote'), blank=False, max_length=255)
     quip = models.ForeignKey(Quip, related_name='quotes', on_delete=models.CASCADE)
     speaker = models.ForeignKey(Speaker, on_delete=models.CASCADE)
-    order_with_respect_to = 'quip'
+
+    class Meta:
+        order_with_respect_to = 'quip'
 
     @property
     def is_slash_me(self):

@@ -134,7 +134,7 @@
         "model": "quips.quote",
         "pk": 1,
         "fields": {
-            "order": 0,
+            "_order": 0,
             "text": "The first duty of every Starfleet officer is to the truth, whether it's scientific truth or historical truth or personal truth!",
             "quip": 1,
             "speaker": 1
@@ -144,7 +144,7 @@
         "model": "quips.quote",
         "pk": 2,
         "fields": {
-            "order": 0,
+            "_order": 0,
             "text": "Number One, have you ever considered whether Data is more human or less human than we want?",
             "quip": 2,
             "speaker": 1
@@ -154,7 +154,7 @@
         "model": "quips.quote",
         "pk": 3,
         "fields": {
-            "order": 1,
+            "_order": 1,
             "text": "I only wish we were all as well-balanced, sir.",
             "quip": 2,
             "speaker": 2
@@ -164,7 +164,7 @@
         "model": "quips.quote",
         "pk": 4,
         "fields": {
-            "order": 2,
+            "_order": 2,
             "text": "Agreed.",
             "quip": 2,
             "speaker": 1
@@ -174,7 +174,7 @@
         "model": "quips.quote",
         "pk": 5,
         "fields": {
-            "order": 0,
+            "_order": 0,
             "text": "I am Locutus of Borg. Resistance is futile. Your life as it has been is over. From this time forward, you will service us.",
             "quip": 3,
             "speaker": 1
@@ -184,7 +184,7 @@
         "model": "quips.quote",
         "pk": 6,
         "fields": {
-            "order": 1,
+            "_order": 1,
             "text": "Mister Worf: Fire.",
             "quip": 3,
             "speaker": 2
@@ -194,7 +194,7 @@
         "model": "quips.quote",
         "pk": 7,
         "fields": {
-            "order": 0,
+            "_order": 0,
             "text": "Ambassador, with great respect for all that you've achieved on behalf of the Federation, this sort of... cowboy diplomacy will not easily be tolerated anymore.",
             "quip": 4,
             "speaker": 1
@@ -204,7 +204,7 @@
         "model": "quips.quote",
         "pk": 8,
         "fields": {
-            "order": 1,
+            "_order": 1,
             "text": "\"Cowboy diplomacy\"?",
             "quip": 4,
             "speaker": 4
@@ -214,7 +214,7 @@
         "model": "quips.quote",
         "pk": 9,
         "fields": {
-            "order": 0,
+            "_order": 0,
             "text": "The key word in your entire peroration, Mr. Spock, was... d-d-d-DEATH. Barbarians! Well, of course I... left.",
             "quip": 5,
             "speaker": 5
@@ -224,7 +224,7 @@
         "model": "quips.quote",
         "pk": 10,
         "fields": {
-            "order": 1,
+            "_order": 1,
             "text": "He broke jail.",
             "quip": 5,
             "speaker": 6
@@ -234,7 +234,7 @@
         "model": "quips.quote",
         "pk": 11,
         "fields": {
-            "order": 0,
+            "_order": 0,
             "text": "My friend... is obviously Chinese. I see you've noticed the ears. They're... actually easy to explain...",
             "quip": 6,
             "speaker": 6
@@ -244,7 +244,7 @@
         "model": "quips.quote",
         "pk": 12,
         "fields": {
-            "order": 1,
+            "_order": 1,
             "text": "Perhaps the unfortunate accident I had as a child...",
             "quip": 6,
             "speaker": 4
@@ -254,7 +254,7 @@
         "model": "quips.quote",
         "pk": 13,
         "fields": {
-            "order": 2,
+            "_order": 2,
             "text": "...the unfortunate accident he had as a child. He caught his head in a mechanical... rice picker... but, fortunately, there was an American missionary living close by who was actually a, uh, skilled, uh, plastic surgeon in civilian life...",
             "quip": 6,
             "speaker": 6

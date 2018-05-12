@@ -38,7 +38,6 @@ DJANGO_APPS = (
     'django.contrib.admin',
 )
 THIRD_PARTY_APPS = (
-    'ordered_model',  # Automagic model ordering
     'typogrify',  # prettier template output
     'memoize',  # function memoization
 )

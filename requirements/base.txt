@@ -30,6 +30,5 @@ django-redis==4.9.0
 redis==2.10.6
 
 # Misc Requirements
-django-ordered-model==1.4.3
 django-typogrify==1.3.3
 django-memoize==2.1.0
