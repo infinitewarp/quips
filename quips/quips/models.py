@@ -47,7 +47,7 @@ class Quip(models.Model):
         return '{}: {} {}'.format(self.id, self.date, self.context)
 
 
-class Quote(OrderedModel):
+class Quote(models.Model):
     """
     Quote is what a Speaker said as part of a Quip.
     """
