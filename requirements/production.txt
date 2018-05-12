@@ -4,5 +4,5 @@
 
 
 # WSGI Handler
-gevent
+gevent==1.3.0
 gunicorn
