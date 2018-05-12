@@ -9,7 +9,7 @@ django==2.0.5
 
 # Configuration
 django-environ==0.4.4
-django-secure
+django-secure==1.0.1
 whitenoise
 
 # Models
