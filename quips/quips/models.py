@@ -2,9 +2,9 @@
 from __future__ import unicode_literals
 
 import uuid as uuid
+
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-from ordered_model.models import OrderedModel
 from slugify import slugify
 
 
