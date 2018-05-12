@@ -1,4 +1,3 @@
-import codecs
 import random
 
 from django import template
@@ -7,7 +6,6 @@ from memoize import memoize
 register = template.Library()
 
 
-@register.filter(name='obfuscate_name')
 @memoize(timeout=5)
 def obfuscate_name(value, delimeter=' '):
     names = value.split(delimeter)
@@ -27,6 +25,19 @@ def obfuscate_name(value, delimeter=' '):
 
     new_name = delimeter.join([shuffle_word(word) for word in names])
     return new_name
+
+
+@register.filter(name='obfuscate_name')
+def obfuscate_name_filter(value, delimeter=' '):
+    """
+    Wrapper for the cached obfuscate_name function.
+
+    For some mysterious reason, recent versions of Django *require* the
+    filter function to have named arguments, and if you give a decorated
+    function that just deals with *args, **kwargs, the template renderer
+    thinks the target function accepts no arguments at all.
+    """
+    return obfuscate_name(value, delimeter)
 
 
 # TODO Make this configurable/DB-driven?
