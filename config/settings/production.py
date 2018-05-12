@@ -21,17 +21,9 @@ SECRET_KEY = env("DJANGO_SECRET_KEY")
 # properly on Heroku.
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-# django-secure
+# DJANGO SECURITY
 # ------------------------------------------------------------------------------
-INSTALLED_APPS += ("djangosecure", )
-
-SECURITY_MIDDLEWARE = (
-    'djangosecure.middleware.SecurityMiddleware',
-)
-
-
-# Make sure djangosecure.middleware.SecurityMiddleware is listed first
-MIDDLEWARE = SECURITY_MIDDLEWARE + MIDDLEWARE
+# See https://docs.djangoproject.com/en/2.0/topics/security/
 
 # set this to 60 seconds and then to 518400 when you can prove it works
 SECURE_HSTS_SECONDS = 60
