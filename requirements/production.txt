@@ -5,4 +5,4 @@
 
 # WSGI Handler
 gevent==1.3.0
-gunicorn
+gunicorn==19.8.1
