@@ -2,7 +2,7 @@
 -r base.txt
 -r test.txt
 
-Werkzeug
+Werkzeug==0.14.1
 
 django-extensions
 django-debug-toolbar
