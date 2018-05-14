@@ -132,9 +132,13 @@ class QuipSlackView(QuipRandomObjectBaseMixin, View):
 
     @staticmethod
     def _format_quote(quote):
+        if quote.speaker.should_obfuscate:
+            speaker_name = obfuscate_name(str(quote.speaker))
+        else:
+            speaker_name = str(quote.speaker)
         if quote.is_slash_me:
-            return '{} {}'.format(obfuscate_name(str(quote.speaker)), quote)
-        return '{}: {}'.format(obfuscate_name(str(quote.speaker)), quote)
+            return '{} {}'.format(speaker_name, quote)
+        return '{}: {}'.format(speaker_name, quote)
 
     def _build_formatted_response(self, quip, request):
         lines = [self._format_quote(quote) for quote in quip.quotes.all()]
