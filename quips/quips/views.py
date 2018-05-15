@@ -1,3 +1,5 @@
+import uuid
+
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.http import Http404, JsonResponse
@@ -109,18 +111,30 @@ class SpeakerNameNotFound(Exception):
     pass
 
 
+class QuipUuidNotFound(Exception):
+    pass
+
+
 @method_decorator(csrf_exempt, name='dispatch')
 class QuipSlackView(QuipRandomObjectBaseMixin, View):
 
     def get_queryset(self):
         queryset = super(QuipSlackView, self).get_queryset()
-        queryset = self.filter_by_speaker_name(queryset)
+        filter_input = self.request.POST.get('text')
+        if filter_input is None or len(filter_input.strip()) == 0:
+            # No input? No additional filter!
+            return queryset
+        try:
+            quip_uuid = uuid.UUID(filter_input)
+            queryset = queryset.filter(uuid=quip_uuid)
+            if queryset.count() == 0:
+                raise QuipUuidNotFound()
+        except ValueError:
+            # Not a UUID? Must be a speaker name!
+            queryset = self.filter_by_speaker_name(queryset, filter_input)
         return queryset
 
-    def filter_by_speaker_name(self, queryset):
-        speaker_name = self.request.POST.get('text')
-        if speaker_name is None or len(speaker_name.strip()) == 0:
-            return queryset
+    def filter_by_speaker_name(self, queryset, speaker_name):
         try:
             speaker = Speaker.objects.filter(name__icontains=speaker_name).first()
             if speaker is None:
@@ -162,6 +176,12 @@ class QuipSlackView(QuipRandomObjectBaseMixin, View):
             response = {
                 'response_type': 'ephemeral',
                 'text': 'No quips found involving speaker name like `{}`.'.format(request.POST.get('text'))
+            }
+            return JsonResponse(response)
+        except QuipUuidNotFound:
+            response = {
+                'response_type': 'ephemeral',
+                'text': 'No quip found with UUID `{}`.'.format(request.POST.get('text'))
             }
             return JsonResponse(response)
 
