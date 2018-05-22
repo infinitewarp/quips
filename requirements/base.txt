@@ -31,4 +31,4 @@ redis==2.10.6
 
 # Misc Requirements
 django-typogrify==1.3.3
-django-memoize==2.1.0
+django-memoize==2.1.1
