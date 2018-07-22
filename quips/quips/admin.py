@@ -33,6 +33,11 @@ class QuipAdmin(admin.ModelAdmin):
     fields = ('context', 'date', 'link')
     readonly_fields = ['link']
 
+    def get_queryset(self, request):
+        """Prefetch the related quotes for faster list display."""
+        return super(QuipAdmin, self).get_queryset(request)\
+            .prefetch_related('quotes')
+
     def link(self, obj):
         href = reverse('quips:detail', args=(obj.uuid,))
         return format_html(f'<a href="{href}">{obj.uuid}</a>')
