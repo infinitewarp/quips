@@ -28,6 +28,7 @@ class QuoteAdmin(admin.ModelAdmin):
 
 
 class QuipAdmin(admin.ModelAdmin):
+    list_display = ('id', 'date', 'context', 'first_quote', 'link')
     inlines = [QuoteInline]
     fields = ('context', 'date', 'link')
     readonly_fields = ['link']
@@ -36,6 +37,10 @@ class QuipAdmin(admin.ModelAdmin):
         href = reverse('quips:detail', args=(obj.uuid,))
         return format_html(f'<a href="{href}">{obj.uuid}</a>')
     link.short_description = 'UUID'
+
+    def first_quote(self, obj):
+        return obj.quotes.first().text
+    first_quote.short_description = 'First Quote'
 
 
 class SpeakerAdmin(admin.ModelAdmin):
