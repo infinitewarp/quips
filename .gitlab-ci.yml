@@ -5,3 +5,9 @@ flake8:
   before_script:
     - pip install tox
   script: tox -eflake8
+
+unit tests:
+  stage: test
+  before_script:
+    - pip install tox
+  script: tox -epy37
