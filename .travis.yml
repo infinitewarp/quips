@@ -1,5 +1,6 @@
-sudo: false
+sudo: true
 language: python
+dist: xenial # Python 3.7 is currently only available on xenial
 cache: pip
 
 python:
