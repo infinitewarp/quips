@@ -18,7 +18,6 @@ unicode-slugify = "*"
 whitenoise = "*"
 
 [dev-packages]
-django-debug-toolbar = "*"
 django-extensions = "*"
 werkzeug = "*"
 
