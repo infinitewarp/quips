@@ -8,7 +8,7 @@ RUN pip install pipenv
 
 # Install here so packages can be cached ahead of the app itself.
 COPY Pipfile Pipfile.lock /
-RUN pipenv install --dev --deploy --system --ignore-pipfile
+RUN pipenv install --deploy --system --ignore-pipfile
 
 COPY ./compose/django/gunicorn.sh ./compose/django/entrypoint.sh /
 RUN sed -i 's/\r//' /entrypoint.sh \
