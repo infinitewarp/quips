@@ -4,11 +4,11 @@ ENV PYTHONUNBUFFERED 1
 
 RUN groupadd -r django \
     && useradd -r -g django django
+RUN pip install pipenv
 
-# Requirements have to be pulled and installed here, otherwise caching won't work
-COPY ./requirements /requirements
-RUN pip install --no-cache-dir -r /requirements/production.txt \
-    && rm -rf /requirements
+# Install here so packages can be cached ahead of the app itself.
+COPY Pipfile Pipfile.lock /
+RUN pipenv install --dev --deploy --system --ignore-pipfile
 
 COPY ./compose/django/gunicorn.sh ./compose/django/entrypoint.sh /
 RUN sed -i 's/\r//' /entrypoint.sh \

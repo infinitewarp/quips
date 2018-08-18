@@ -1,9 +1,11 @@
-FROM python:3.6
+FROM python:3.7
 ENV PYTHONUNBUFFERED 1
 
-# Requirements have to be pulled and installed here, otherwise caching won't work
-COPY ./requirements /requirements
-RUN pip install -r /requirements/local.txt
+RUN pip install pipenv
+
+# Install here so packages can be cached ahead of the app itself.
+COPY Pipfile Pipfile.lock /
+RUN pipenv install --dev --deploy --system --ignore-pipfile
 
 COPY ./compose/django/entrypoint.sh /entrypoint.sh
 RUN sed -i 's/\r//' /entrypoint.sh

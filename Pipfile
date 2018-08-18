@@ -1,0 +1,26 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+Django = "*"
+django-environ = "*"
+django-memoize = "*"
+django-model-utils = "*"
+django-redis = "*"
+django-typogrify = "*"
+gunicorn = "*"
+psycopg2-binary = "*"
+pytz = "*"
+redis = "*"
+unicode-slugify = "*"
+whitenoise = "*"
+
+[dev-packages]
+django-debug-toolbar = "*"
+django-extensions = "*"
+werkzeug = "*"
+
+[requires]
+python_version = "3.7"
