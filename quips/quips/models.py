@@ -47,7 +47,7 @@ class Quip(models.Model):
 class Quote(models.Model):
     """Quote is what a Speaker said as part of a Quip."""
 
-    text = models.CharField(_('Text of the Quote'), blank=False, max_length=255)
+    text = models.CharField(_('Text of the Quote'), blank=False, max_length=512)
     quip = models.ForeignKey(Quip, related_name='quotes', on_delete=models.CASCADE)
     speaker = models.ForeignKey(Speaker, on_delete=models.CASCADE)
 
