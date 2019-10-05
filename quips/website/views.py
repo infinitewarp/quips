@@ -10,8 +10,8 @@ from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic.detail import DetailView, SingleObjectMixin
 
-from ..quips.models import Clique, Quip, Speaker
 from .templatetags.quips_extras import obfuscate_name
+from ..quips.models import Clique, Quip, Speaker
 
 
 class QuipDetailView(DetailView):
