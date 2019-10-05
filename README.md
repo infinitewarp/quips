@@ -66,3 +66,12 @@ all existing Quips, Quotes, and Speakers before importing the file.
 `importquips` usage:
 
     /app/manage.py importquips [--purge] filename.csv
+
+### API Usage
+
+You can query the API for a limited set of read-only data. Supported paths include:
+
+- `/quips/api/speaker/` list speakers
+- `/quips/api/speaker/{id}/` get specific speaker
+- `/quips/api/cliques/` list cliques
+- `/quips/api/cliques/{id}/` get specific clique

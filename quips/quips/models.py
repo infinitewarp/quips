@@ -21,6 +21,10 @@ class Clique(models.Model):
         self.slug = slugify(self.name)
         super(Clique, self).save(*args, **kwargs)
 
+    def get_speakers(self):
+        speakers = Speaker.objects.filter(cliques__in=[self.id]).order_by("id")
+        return speakers
+
 
 class Speaker(models.Model):
     """Speaker is the person who said the Quote."""

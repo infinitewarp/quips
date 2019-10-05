@@ -44,12 +44,14 @@ DJANGO_APPS = (
 THIRD_PARTY_APPS = (
     'typogrify',  # prettier template output
     'memoize',  # function memoization
+    'rest_framework',  # DRF
 )
 
 # Apps specific for this project go here.
 LOCAL_APPS = (
     'quips.quips',
     'quips.website',
+    'quips.api',
 )
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
@@ -74,6 +76,13 @@ MIDDLEWARE = (
 # ------------------------------------------------------------------------------
 MIGRATION_MODULES = {
     'sites': 'quips.contrib.sites.migrations'
+}
+
+# DJANGO REST FRAMEWORK
+# ------------------------------------------------------------------------------
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10
 }
 
 # DEBUG
