@@ -4,7 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-Django = "*"
+Django = ">=2.1.11"
 django-environ = "*"
 django-memoize = "*"
 django-model-utils = "*"
@@ -20,7 +20,7 @@ djangorestframework = "*"
 
 [dev-packages]
 django-extensions = "*"
-werkzeug = "*"
+werkzeug = ">=0.15.3"
 "flake8" = "*"
 "flake8-docstrings" = "*"
 "flake8-import-order" = "*"
