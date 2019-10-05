@@ -5,7 +5,7 @@ from django.contrib import admin
 from django.urls import reverse
 from django.utils.html import format_html
 
-from quips.quips.models import Clique, Quip, Quote, Speaker
+from ..quips.models import Clique, Quip, Quote, Speaker
 
 
 class QuoteInline(admin.TabularInline):

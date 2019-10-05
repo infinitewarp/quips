@@ -40,7 +40,7 @@
   </div>
   <p class="text-center quip-date">
     {{ object.date }}
-    <a href="{% url 'quips:detail' quip.uuid %}" class="quip-link" title="Permalink to this quip"><span class="glyphicon glyphicon-link"></span></a>
+    <a href="{% url 'website:detail' quip.uuid %}" class="quip-link" title="Permalink to this quip"><span class="glyphicon glyphicon-link"></span></a>
   </p>
   {% if object.context %}<p class="text-center quip-context">{{ object.context|typogrify }}</p>{% endif %}
 </div>
@@ -48,6 +48,6 @@
 {% endblock content %}
 
 {% block footer %}
-<a href="{% url 'quips:random' %}"><span class="glyphicon glyphicon-fire randomizer"></span></a>
+<a href="{% url 'website:random' %}"><span class="glyphicon glyphicon-fire randomizer"></span></a>
 {% endblock footer %}
 
