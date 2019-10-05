@@ -7,28 +7,28 @@ register = template.Library()
 
 
 @memoize(timeout=5)
-def obfuscate_name(value, delimeter=' '):
+def obfuscate_name(value, delimeter=" "):
     names = value.split(delimeter)
 
     def shuffle_word(word):
         if not word or len(word) < 3:
             return word
-        if '-' in word:
-            return obfuscate_name(word, delimeter='-')
+        if "-" in word:
+            return obfuscate_name(word, delimeter="-")
         guts = list(word[1:-1])
         random.shuffle(guts)
-        new_word = word[0] + ''.join(guts) + word[-1]
+        new_word = word[0] + "".join(guts) + word[-1]
         if new_word == word:
             # if shuffle didn't sufficiently randomize, just flip it
-            new_word = word[0] + ''.join(guts[::-1]) + word[-1]
+            new_word = word[0] + "".join(guts[::-1]) + word[-1]
         return new_word
 
     new_name = delimeter.join([shuffle_word(word) for word in names])
     return new_name
 
 
-@register.filter(name='obfuscate_name')
-def obfuscate_name_filter(value, delimeter=' '):
+@register.filter(name="obfuscate_name")
+def obfuscate_name_filter(value, delimeter=" "):
     """
     Wrap the memoized obfuscate_name function.
 

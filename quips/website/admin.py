@@ -15,41 +15,43 @@ class QuoteInline(admin.TabularInline):
 
 class QuoteAdmin(admin.ModelAdmin):
     # move_up_down_links
-    list_display = ('id', 'quip', 'text', 'speaker',)
-    list_filter = ('speaker__cliques__name', 'speaker__name',)
-    fields = ('text', 'quip', 'speaker', 'quip_link')
-    readonly_fields = ['quip_link']
-    ordering = ('-quip_id', '_order')
+    list_display = ("id", "quip", "text", "speaker")
+    list_filter = ("speaker__cliques__name", "speaker__name")
+    fields = ("text", "quip", "speaker", "quip_link")
+    readonly_fields = ["quip_link"]
+    ordering = ("-quip_id", "_order")
 
     def quip_link(self, obj):
-        href = reverse('quips:detail', args=(obj.quip.uuid,))
+        href = reverse("quips:detail", args=(obj.quip.uuid,))
         return format_html(f'<a href="{href}">{obj.quip.uuid}</a>')
-    quip_link.short_description = 'Quip UUID'
+
+    quip_link.short_description = "Quip UUID"
 
 
 class QuipAdmin(admin.ModelAdmin):
-    list_display = ('id', 'date', 'context', 'first_quote', 'link')
+    list_display = ("id", "date", "context", "first_quote", "link")
     inlines = [QuoteInline]
-    fields = ('context', 'date', 'link')
-    readonly_fields = ['link']
+    fields = ("context", "date", "link")
+    readonly_fields = ["link"]
 
     def get_queryset(self, request):
         """Prefetch the related quotes for faster list display."""
-        return super(QuipAdmin, self).get_queryset(request)\
-            .prefetch_related('quotes')
+        return super(QuipAdmin, self).get_queryset(request).prefetch_related("quotes")
 
     def link(self, obj):
-        href = reverse('quips:detail', args=(obj.uuid,))
+        href = reverse("quips:detail", args=(obj.uuid,))
         return format_html(f'<a href="{href}">{obj.uuid}</a>')
-    link.short_description = 'UUID'
+
+    link.short_description = "UUID"
 
     def first_quote(self, obj):
         return obj.quotes.first().text
-    first_quote.short_description = 'First Quote'
+
+    first_quote.short_description = "First Quote"
 
 
 class SpeakerAdmin(admin.ModelAdmin):
-    list_filter = ('cliques__name',)
+    list_filter = ("cliques__name",)
 
 
 admin.site.register(Quote, QuoteAdmin)

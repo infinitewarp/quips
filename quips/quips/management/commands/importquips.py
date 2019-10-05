@@ -11,27 +11,39 @@ logger = logging.getLogger(__name__)
 
 
 class Command(BaseCommand):
-    help = 'Imports a CSV file containing quips data'
+    help = "Imports a CSV file containing quips data"
 
     def add_arguments(self, parser):
-        parser.add_argument('file', help='csv containing quips', type=argparse.FileType('r'))
-        parser.add_argument('--purge', help='purges all quip data, resetting to a clean state', action='store_true')
+        parser.add_argument(
+            "file", help="csv containing quips", type=argparse.FileType("r")
+        )
+        parser.add_argument(
+            "--purge",
+            help="purges all quip data, resetting to a clean state",
+            action="store_true",
+        )
 
     def handle(self, *args, **options):
-        if options['purge']:
+        if options["purge"]:
             quotes = Quote.objects.all()
-            self.stdout.write(self.style.WARNING('Deleting all {} Quotes'.format(quotes.count())))
+            self.stdout.write(
+                self.style.WARNING("Deleting all {} Quotes".format(quotes.count()))
+            )
             quotes.delete()
 
             quips = Quip.objects.all()
-            self.stdout.write(self.style.WARNING('Deleting all {} Quips'.format(quips.count())))
+            self.stdout.write(
+                self.style.WARNING("Deleting all {} Quips".format(quips.count()))
+            )
             quips.delete()
 
             speakers = Speaker.objects.all()
-            self.stdout.write(self.style.WARNING('Deleting all {} Speakers'.format(speakers.count())))
+            self.stdout.write(
+                self.style.WARNING("Deleting all {} Speakers".format(speakers.count()))
+            )
             speakers.delete()
 
-        f = options['file']
+        f = options["file"]
         row_num = 0
         successes = 0
         with f:
@@ -47,9 +59,15 @@ class Command(BaseCommand):
                         self._import_quip_row(row)
                     successes += 1
                 except Exception as e:
-                    self.stderr.write(self.style.ERROR('Failed to import row {}: {}'.format(row_num, e)))
+                    self.stderr.write(
+                        self.style.ERROR(
+                            "Failed to import row {}: {}".format(row_num, e)
+                        )
+                    )
                 row_num += 1
-            self.stdout.write(self.style.SUCCESS('Successfully imported {} quips'.format(successes)))
+            self.stdout.write(
+                self.style.SUCCESS("Successfully imported {} quips".format(successes))
+            )
 
     def _import_quip_row(self, row):
         """

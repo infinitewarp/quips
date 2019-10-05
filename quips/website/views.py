@@ -27,22 +27,24 @@ class QuipDetailView(DetailView):
         if queryset is None:
             queryset = self.get_queryset()
 
-        uuid = self.kwargs.get('uuid')
+        uuid = self.kwargs.get("uuid")
         try:
             queryset = queryset.filter(uuid=uuid)
             obj = queryset.get()
         except (ValidationError, ValueError, queryset.model.DoesNotExist):
             # ValidationError and ValueError are to deal with malformed inputs
             # that aren't valid uuids.
-            raise Http404(_('No %(verbose_name)s found matching the query') %
-                          {'verbose_name': queryset.model._meta.verbose_name})
+            raise Http404(
+                _("No %(verbose_name)s found matching the query")
+                % {"verbose_name": queryset.model._meta.verbose_name}
+            )
 
         return obj
 
 
 class QuipDefaultView(QuipDetailView):
     def get_object(self, queryset=None):
-        self.kwargs['uuid'] = settings.DEFAULT_QUIP_UUID
+        self.kwargs["uuid"] = settings.DEFAULT_QUIP_UUID
         return super(QuipDefaultView, self).get_object(queryset)
 
 
@@ -57,7 +59,7 @@ class QuipRandomObjectBaseMixin(SingleObjectMixin):
         return self.first_random(queryset)
 
     def first_random(self, queryset):
-        return queryset.order_by('?').first()
+        return queryset.order_by("?").first()
 
 
 class QuipRandomView(QuipRandomObjectBaseMixin, DetailView):
@@ -71,7 +73,7 @@ class QuipRandomSpeakerView(QuipRandomView):
         return queryset
 
     def filter_by_speaker_id(self, queryset):
-        speaker_id = self.request.GET.get('speaker_id')
+        speaker_id = self.request.GET.get("speaker_id")
         if speaker_id is None:
             return queryset
         try:
@@ -83,7 +85,7 @@ class QuipRandomSpeakerView(QuipRandomView):
 
 
 class QuipRandomCliqueSpeakerView(QuipRandomView):
-    template_name = 'quips/quip_detail_in_clique.html'
+    template_name = "quips/quip_detail_in_clique.html"
 
     def get_queryset(self):
         queryset = super(QuipRandomCliqueSpeakerView, self).get_queryset()
@@ -91,8 +93,8 @@ class QuipRandomCliqueSpeakerView(QuipRandomView):
         return queryset
 
     def filter_by_clique_and_speaker_id(self, queryset):
-        slug = self.kwargs.get('slug')
-        speaker_id = self.request.GET.get('speaker_id')
+        slug = self.kwargs.get("slug")
+        speaker_id = self.request.GET.get("speaker_id")
 
         clique = Clique.objects.filter(slug=slug)
         speakers = Speaker.objects.filter(cliques__in=clique)
@@ -103,7 +105,7 @@ class QuipRandomCliqueSpeakerView(QuipRandomView):
 
     def get_context_data(self, **kwargs):
         context = super(QuipRandomCliqueSpeakerView, self).get_context_data()
-        context['slug'] = self.kwargs.get('slug')
+        context["slug"] = self.kwargs.get("slug")
         return context
 
 
@@ -115,12 +117,11 @@ class QuipUuidNotFound(Exception):
     pass
 
 
-@method_decorator(csrf_exempt, name='dispatch')
+@method_decorator(csrf_exempt, name="dispatch")
 class QuipSlackView(QuipRandomObjectBaseMixin, View):
-
     def get_queryset(self):
         queryset = super(QuipSlackView, self).get_queryset()
-        filter_input = self.request.POST.get('text')
+        filter_input = self.request.POST.get("text")
         if filter_input is None or len(filter_input.strip()) == 0:
             # No input? No additional filter!
             return queryset
@@ -151,22 +152,21 @@ class QuipSlackView(QuipRandomObjectBaseMixin, View):
         else:
             speaker_name = str(quote.speaker)
         if quote.is_slash_me:
-            return '{} {}'.format(speaker_name, quote)
-        return '{}: {}'.format(speaker_name, quote)
+            return "{} {}".format(speaker_name, quote)
+        return "{}: {}".format(speaker_name, quote)
 
     def _build_formatted_response(self, quip, request):
         lines = [self._format_quote(quote) for quote in quip.quotes.all()]
         if quip.context:
-            context = quip.context.replace('_', r'\_')
-            lines.append('_{}, {}_'.format(quip.date, context))
+            context = quip.context.replace("_", r"\_")
+            lines.append("_{}, {}_".format(quip.date, context))
         else:
-            lines.append('_{}_'.format(quip.date))
-        lines.append(request.build_absolute_uri(reverse('quips:detail', args=(quip.uuid,))))
-        text = '\n'.join(lines)
-        response = {
-            'response_type': 'in_channel',
-            'text': text,
-        }
+            lines.append("_{}_".format(quip.date))
+        lines.append(
+            request.build_absolute_uri(reverse("quips:detail", args=(quip.uuid,)))
+        )
+        text = "\n".join(lines)
+        response = {"response_type": "in_channel", "text": text}
         return response
 
     def post(self, request, *args, **kwargs):
@@ -174,14 +174,18 @@ class QuipSlackView(QuipRandomObjectBaseMixin, View):
             quip = self.get_object()
         except SpeakerNameNotFound:
             response = {
-                'response_type': 'ephemeral',
-                'text': 'No quips found involving speaker name like `{}`.'.format(request.POST.get('text'))
+                "response_type": "ephemeral",
+                "text": "No quips found involving speaker name like `{}`.".format(
+                    request.POST.get("text")
+                ),
             }
             return JsonResponse(response)
         except QuipUuidNotFound:
             response = {
-                'response_type': 'ephemeral',
-                'text': 'No quip found with UUID `{}`.'.format(request.POST.get('text'))
+                "response_type": "ephemeral",
+                "text": "No quip found with UUID `{}`.".format(
+                    request.POST.get("text")
+                ),
             }
             return JsonResponse(response)
 
