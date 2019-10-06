@@ -163,7 +163,7 @@ class QuipSlackView(QuipRandomObjectBaseMixin, View):
         else:
             lines.append("_{}_".format(quip.date))
         lines.append(
-            request.build_absolute_uri(reverse("quips:detail", args=(quip.uuid,)))
+            request.build_absolute_uri(reverse("website:detail", args=(quip.uuid,)))
         )
         text = "\n".join(lines)
         response = {"response_type": "in_channel", "text": text}

@@ -22,7 +22,7 @@ class QuoteAdmin(admin.ModelAdmin):
     ordering = ("-quip_id", "_order")
 
     def quip_link(self, obj):
-        href = reverse("quips:detail", args=(obj.quip.uuid,))
+        href = reverse("website:detail", args=(obj.quip.uuid,))
         return format_html(f'<a href="{href}">{obj.quip.uuid}</a>')
 
     quip_link.short_description = "Quip UUID"
@@ -39,7 +39,7 @@ class QuipAdmin(admin.ModelAdmin):
         return super(QuipAdmin, self).get_queryset(request).prefetch_related("quotes")
 
     def link(self, obj):
-        href = reverse("quips:detail", args=(obj.uuid,))
+        href = reverse("website:detail", args=(obj.uuid,))
         return format_html(f'<a href="{href}">{obj.uuid}</a>')
 
     link.short_description = "UUID"
