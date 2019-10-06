@@ -3,13 +3,13 @@ image: python:3.7
 flake8:
   stage: test
   before_script:
-    - pip install tox
+    - pip install tox pipenv
   script: tox -eflake8
 
 unit tests:
   stage: test
   before_script:
-    - pip install tox
+    - pip install tox pipenv
   script: tox -epy37
 
 sast:
