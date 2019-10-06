@@ -25,6 +25,7 @@ werkzeug = ">=0.15.3"
 "flake8-docstrings" = "*"
 "flake8-import-order" = "*"
 flake8-black = "*"
+faker = "*"
 
 [requires]
 python_version = "3.7"
