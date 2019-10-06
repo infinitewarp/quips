@@ -91,9 +91,14 @@ class Command(BaseCommand):
         quotes = list()
         for quote_text, speaker_name in quote_pairs:
             speaker, created = Speaker.objects.get_or_create(name=speaker_name)
-            # if created:
-            #     self.stdout.write(self.style.WARNING(
-            #         'Speaker "{}" did not exist and has been created'.format(speaker_name)))
+            if created:
+                self.stdout.write(
+                    self.style.WARNING(
+                        'Speaker "{}" did not exist and has been created'.format(
+                            speaker_name
+                        )
+                    )
+                )
             quote = Quote(text=quote_text, speaker=speaker, quip=quip)
             quote.save()
             quotes.append(quote)
