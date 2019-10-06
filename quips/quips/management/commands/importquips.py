@@ -24,24 +24,8 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        if options["purge"]:
-            quotes = Quote.objects.all()
-            self.stdout.write(
-                self.style.WARNING("Deleting all {} Quotes".format(quotes.count()))
-            )
-            quotes.delete()
-
-            quips = Quip.objects.all()
-            self.stdout.write(
-                self.style.WARNING("Deleting all {} Quips".format(quips.count()))
-            )
-            quips.delete()
-
-            speakers = Speaker.objects.all()
-            self.stdout.write(
-                self.style.WARNING("Deleting all {} Speakers".format(speakers.count()))
-            )
-            speakers.delete()
+        if options.get("purge", False):
+            self._do_purge()
 
         f = options["file"]
         row_num = 0
@@ -63,6 +47,26 @@ class Command(BaseCommand):
             self.stdout.write(
                 self.style.SUCCESS("Successfully imported {} quips".format(successes))
             )
+
+    def _do_purge(self):
+        """Purge all quip data."""
+        quotes = Quote.objects.all()
+        self.stdout.write(
+            self.style.WARNING("Deleting all {} Quotes".format(quotes.count()))
+        )
+        quotes.delete()
+
+        quips = Quip.objects.all()
+        self.stdout.write(
+            self.style.WARNING("Deleting all {} Quips".format(quips.count()))
+        )
+        quips.delete()
+
+        speakers = Speaker.objects.all()
+        self.stdout.write(
+            self.style.WARNING("Deleting all {} Speakers".format(speakers.count()))
+        )
+        speakers.delete()
 
     def _import_quip_row(self, row):
         """
