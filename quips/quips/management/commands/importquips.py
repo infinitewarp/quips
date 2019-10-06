@@ -27,26 +27,9 @@ class Command(BaseCommand):
         if options.get("purge", False):
             self._do_purge()
 
-        f = options["file"]
-        row_num = 0
-        successes = 0
-        with f:
-            reader = csv.reader(f)
-            for row in reader:
-                try:
-                    with transaction.atomic():
-                        self._import_quip_row(row)
-                    successes += 1
-                except Exception as e:
-                    self.stderr.write(
-                        self.style.ERROR(
-                            "Failed to import row {}: {}".format(row_num, e)
-                        )
-                    )
-                row_num += 1
-            self.stdout.write(
-                self.style.SUCCESS("Successfully imported {} quips".format(successes))
-            )
+        the_file = options["file"]
+        with the_file:
+            self._handle_file(the_file)
 
     def _do_purge(self):
         """Purge all quip data."""
@@ -67,6 +50,22 @@ class Command(BaseCommand):
             self.style.WARNING("Deleting all {} Speakers".format(speakers.count()))
         )
         speakers.delete()
+
+    def _handle_file(self, the_file):
+        """Read the CSV and import its contents."""
+        successes = 0
+        for row_num, row in enumerate(csv.reader(the_file)):
+            try:
+                with transaction.atomic():
+                    self._import_quip_row(row)
+                successes += 1
+            except Exception as e:
+                self.stderr.write(
+                    self.style.ERROR("Failed to import row {}: {}".format(row_num, e))
+                )
+        self.stdout.write(
+            self.style.SUCCESS("Successfully imported {} quips".format(successes))
+        )
 
     def _import_quip_row(self, row):
         """
