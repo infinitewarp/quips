@@ -83,13 +83,15 @@ class Command(BaseCommand):
 
         Additional quotes and speakers may repeat in pairs after the first.
         """
-        date, context = row[0], row[1]
+        date, context = row[0].strip(), row[1].strip()
         quip = Quip(date=date, context=context)
         quip.save()
 
         quote_pairs = (pair for pair in zip(row[2::2], row[3::2]) if pair[0])
         quotes = list()
         for quote_text, speaker_name in quote_pairs:
+            quote_text = quote_text.strip()
+            speaker_name = speaker_name.strip()
             speaker, created = Speaker.objects.get_or_create(name=speaker_name)
             if created:
                 self.stdout.write(

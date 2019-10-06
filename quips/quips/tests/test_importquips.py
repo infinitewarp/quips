@@ -37,7 +37,7 @@ class ImportQuipsTest(TestCase):
         self.assertEqual(models.Quip.objects.all().count(), 0)
 
     def test_import_quip_row_with_new_speakers(self):
-        """Assert _import_quip_row works creates new speakers."""
+        """Assert _import_quip_row creates new speakers."""
         quip_date = FAKER.date()
         quip_context = FAKER.sentence()
         first_name = FAKER.name()
@@ -107,3 +107,29 @@ class ImportQuipsTest(TestCase):
         quip = models.Quip.objects.get()
         self.assertEqual(quip.context, quip_context)
         self.assertEqual(quip.quotes.all().count(), 2)
+
+    def test_import_quip_row_strips_whitespace(self):
+        """Assert _import_quip_row strips whitespace around values."""
+        quip_date = FAKER.date()
+        quip_context = FAKER.sentence()
+        first_name = FAKER.name()
+        first_quote = FAKER.sentence()
+        row = [
+            f" {quip_date} ",
+            f" {quip_context} ",
+            f" {first_quote} ",
+            f" {first_name} ",
+        ]
+
+        models.Speaker.objects.create(name=first_name)
+
+        ImportQuipsCommand()._import_quip_row(row)
+
+        speaker = models.Speaker.objects.get()
+        self.assertEqual(speaker.name, first_name)
+
+        quote = models.Quote.objects.get()
+        self.assertEqual(quote.text, first_quote)
+
+        quip = models.Quip.objects.get()
+        self.assertEqual(quip.context, quip_context)
