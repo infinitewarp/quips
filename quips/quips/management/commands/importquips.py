@@ -24,12 +24,18 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        if options.get("purge", False):
-            self._do_purge()
+        try:
+            with transaction.atomic():
+                if options.get("purge", False):
+                    self._do_purge()
 
-        the_file = options["file"]
-        with the_file:
-            self._handle_file(the_file)
+                the_file = options["file"]
+                with the_file:
+                    self._handle_file(the_file)
+        except Exception as e:
+            self.stderr.write(
+                self.style.WARNING("Rolling back! {}: {}".format(e.__class__, e))
+            )
 
     def _do_purge(self):
         """Purge all quip data."""
@@ -56,13 +62,13 @@ class Command(BaseCommand):
         successes = 0
         for row_num, row in enumerate(csv.reader(the_file)):
             try:
-                with transaction.atomic():
-                    self._import_quip_row(row)
+                self._import_quip_row(row)
                 successes += 1
             except Exception as e:
                 self.stderr.write(
                     self.style.ERROR("Failed to import row {}: {}".format(row_num, e))
                 )
+                raise e
         self.stdout.write(
             self.style.SUCCESS("Successfully imported {} quips".format(successes))
         )
