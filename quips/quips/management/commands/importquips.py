@@ -47,14 +47,9 @@ class Command(BaseCommand):
         row_num = 0
         successes = 0
         with f:
-            header_row = csv.Sniffer().has_header(f.read(1024))
-            f.seek(0)
             reader = csv.reader(f)
             for row in reader:
                 try:
-                    if header_row:
-                        header_row = False
-                        continue
                     with transaction.atomic():
                         self._import_quip_row(row)
                     successes += 1
