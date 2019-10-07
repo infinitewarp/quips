@@ -5,7 +5,10 @@ import faker
 from django.test import TestCase
 
 from .. import models
-from ..management.commands.importquips import Command as ImportQuipsCommand
+from ..management.commands.importquips import (
+    AlreadyExistsException,
+    Command as ImportQuipsCommand,
+)
 
 FAKER = faker.Faker()
 
@@ -133,3 +136,54 @@ class ImportQuipsTest(TestCase):
 
         quip = models.Quip.objects.get()
         self.assertEqual(quip.context, quip_context)
+
+    def test_import_quip_row_raises_exception_if_quote_already_exists(self):
+        """Assert _import_quip_row raises exception if the quote already exists."""
+        quip_date = str(FAKER.date())
+        quip_context = FAKER.sentence()
+        first_name = FAKER.name()
+        first_quote = FAKER.sentence()
+        row = [quip_date, quip_context, first_quote, first_name]
+
+        # first import should succeed normally.
+        command = ImportQuipsCommand()
+        command._import_quip_row(row)
+
+        with self.assertRaises(AlreadyExistsException) as assert_context:
+            command._import_quip_row(row)
+        self.assertIn("Quote already exists", str(assert_context.exception))
+
+    def test_quote_already_exists_false_for_new_data(self):
+        """Assert _quote_already_exists returns false for different data."""
+        quip_date = str(FAKER.date())
+        quip_context = FAKER.sentence()
+        first_name = FAKER.name()
+        first_quote = FAKER.sentence()
+        row = [quip_date, quip_context, first_quote, first_name]
+
+        command = ImportQuipsCommand()
+        command._import_quip_row(row)
+
+        new_quip_date = str(FAKER.date())
+        new_first_name = FAKER.name()
+        new_first_quote = FAKER.sentence()
+        self.assertFalse(
+            command._quote_already_exists(
+                new_quip_date, new_first_name, new_first_quote
+            )
+        )
+
+    def test_quote_already_exists_true_for_duplicate_data(self):
+        """Assert _quote_already_exists returns true for duplicate data."""
+        quip_date = str(FAKER.date())
+        quip_context = FAKER.sentence()
+        first_name = FAKER.name()
+        first_quote = FAKER.sentence()
+        row = [quip_date, quip_context, first_quote, first_name]
+
+        command = ImportQuipsCommand()
+        command._import_quip_row(row)
+
+        self.assertTrue(
+            command._quote_already_exists(quip_date, first_name, first_quote)
+        )

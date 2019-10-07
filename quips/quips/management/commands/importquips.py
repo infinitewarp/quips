@@ -10,6 +10,10 @@ from quips.quips.models import Quip, Quote, Speaker
 logger = logging.getLogger(__name__)
 
 
+class AlreadyExistsException(Exception):
+    """Raise when the new data already exists in the database."""
+
+
 class Command(BaseCommand):
     help = "Imports a CSV file containing quips data"
 
@@ -92,6 +96,13 @@ class Command(BaseCommand):
         for quote_text, speaker_name in quote_pairs:
             quote_text = quote_text.strip()
             speaker_name = speaker_name.strip()
+            if self._quote_already_exists(date, speaker_name, quote_text):
+                # quip.delete()  # TODO Delete? Or rely on transaction rollback?
+                raise AlreadyExistsException(
+                    'Quote already exists on {} by "{}": {}'.format(
+                        date, speaker_name, quote_text
+                    )
+                )
             speaker, created = Speaker.objects.get_or_create(name=speaker_name)
             if created:
                 self.stdout.write(
@@ -108,3 +119,11 @@ class Command(BaseCommand):
         if len(quotes) > 1:
             quote_order = [quote.id for quote in quotes]
             quip.set_quote_order(quote_order)
+
+    def _quote_already_exists(self, date, speaker_name, quote_text):
+        """Check if the quote already exists."""
+        quotes = Quote.objects.filter(speaker__name=speaker_name, text=quote_text)
+        for quote in quotes:
+            if str(quote.quip.date) == date:
+                return True
+        return False
