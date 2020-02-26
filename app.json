@@ -29,7 +29,6 @@
   "stack": "heroku-18",
   "addons": [
     "heroku-postgresql:hobby-dev",
-    "heroku-redis:hobby-dev",
-    "mailgun"
+    "heroku-redis:hobby-dev"
   ]
 }
