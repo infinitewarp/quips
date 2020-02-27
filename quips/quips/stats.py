@@ -25,15 +25,21 @@ def cached_stats(when: int, *args, **kwargs) -> dict:
 def _build_stats(top_count: int = 5) -> dict:
     """Build various stats about quips models."""
     top_speakers = Speaker.objects.annotate(
-        count=Count("quote__quip", distinct=True)
-    ).order_by("-count", "id")
+        quip_count=Count("quote__quip", distinct=True),
+        quote_count=Count("quote", distinct=True),
+    ).order_by("-quip_count", "-quote_count", "id")
     stats = {
         "clique_count": Clique.objects.count(),
         "quip_count": Quip.objects.count(),
         "quote_count": Quote.objects.count(),
         "speaker_count": Speaker.objects.count(),
         "top_speakers": [
-            {"id": speaker.id, "name": speaker.name, "count": speaker.count}
+            {
+                "id": speaker.id,
+                "name": speaker.name,
+                "quip_count": speaker.quip_count,
+                "quote_count": speaker.quote_count,
+            }
             for speaker in top_speakers[:top_count]
         ],
     }
