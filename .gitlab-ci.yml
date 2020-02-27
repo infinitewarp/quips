@@ -15,5 +15,6 @@ unit tests:
     - codecov
 
 include:
-  template: SAST.gitlab-ci.yml
+  - template: SAST.gitlab-ci.yml
+  - template: License-Scanning.gitlab-ci.yml
 
