@@ -9,8 +9,10 @@ flake8:
 unit tests:
   stage: test
   before_script:
-    - pip install tox pipenv
-  script: tox -epy37
+    - pip install tox pipenv codecov
+  script:
+    - tox -epy37
+    - codecov
 
 include:
   template: SAST.gitlab-ci.yml

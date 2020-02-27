@@ -1,5 +1,7 @@
 [run]
+branch = True
 include = quips/*
 omit = *migrations*, *tests*
-plugins =
-    django_coverage_plugin
+
+[report]
+ignore_errors = True
