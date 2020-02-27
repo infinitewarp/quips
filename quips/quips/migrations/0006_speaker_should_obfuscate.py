@@ -8,13 +8,15 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('quips', '0005_quip_uuid'),
+        ("quips", "0005_quip_uuid"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='speaker',
-            name='should_obfuscate',
-            field=models.BooleanField(default=True, verbose_name='Should the displayed name be obfuscated'),
+            model_name="speaker",
+            name="should_obfuscate",
+            field=models.BooleanField(
+                default=True, verbose_name="Should the displayed name be obfuscated"
+            ),
         ),
     ]

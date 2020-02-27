@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('quips', '0008_drop_old_quote_order_field'),
+        ("quips", "0008_drop_old_quote_order_field"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='quote',
-            name='text',
-            field=models.CharField(max_length=512, verbose_name='Text of the Quote'),
+            model_name="quote",
+            name="text",
+            field=models.CharField(max_length=512, verbose_name="Text of the Quote"),
         ),
     ]

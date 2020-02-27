@@ -10,41 +10,79 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Quip',
+            name="Quip",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('context', models.CharField(blank=True, max_length=255, verbose_name='Context of the Quote')),
-                ('date', models.DateField(verbose_name='Date of the Quote')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "context",
+                    models.CharField(
+                        blank=True, max_length=255, verbose_name="Context of the Quote"
+                    ),
+                ),
+                ("date", models.DateField(verbose_name="Date of the Quote")),
             ],
         ),
         migrations.CreateModel(
-            name='Quote',
+            name="Quote",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('order', models.PositiveIntegerField(db_index=True, editable=False)),
-                ('text', models.CharField(max_length=255, verbose_name='Text of the Quote')),
-                ('quip', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='quips.Quip')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("order", models.PositiveIntegerField(db_index=True, editable=False)),
+                (
+                    "text",
+                    models.CharField(max_length=255, verbose_name="Text of the Quote"),
+                ),
+                (
+                    "quip",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to="quips.Quip"
+                    ),
+                ),
             ],
-            options={
-                'ordering': ('order',),
-                'abstract': False,
-            },
+            options={"ordering": ("order",), "abstract": False,},
         ),
         migrations.CreateModel(
-            name='Speaker',
+            name="Speaker",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=255, verbose_name='Name of Speaker')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "name",
+                    models.CharField(max_length=255, verbose_name="Name of Speaker"),
+                ),
             ],
         ),
         migrations.AddField(
-            model_name='quote',
-            name='speaker',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='quips.Speaker'),
+            model_name="quote",
+            name="speaker",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to="quips.Speaker"
+            ),
         ),
     ]

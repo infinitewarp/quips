@@ -3,12 +3,13 @@ from django.db import migrations, models
 
 def copy_old_quote_order(apps, schema_editor):
     """Copy the old-style order data for Quotes to the new field."""
-    Quote = apps.get_model('quips', 'Quote')
+    Quote = apps.get_model("quips", "Quote")
 
     class OldStyleOrderedQuote(Quote):
         class Meta:
             proxy = True
-            app_label = 'quips'
+            app_label = "quips"
+
         managed = False
 
     ordered_quotes = OldStyleOrderedQuote.objects.filter(old_order__gt=0)
@@ -20,22 +21,14 @@ def copy_old_quote_order(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('quips', '0006_speaker_should_obfuscate'),
+        ("quips", "0006_speaker_should_obfuscate"),
     ]
 
     operations = [
-        migrations.AlterModelOptions(
-            name='quote',
-            options={},
-        ),
+        migrations.AlterModelOptions(name="quote", options={},),
         migrations.RenameField(
-            model_name='quote',
-            old_name='order',
-            new_name='old_order',
+            model_name="quote", old_name="order", new_name="old_order",
         ),
-        migrations.AlterOrderWithRespectTo(
-            name='quote',
-            order_with_respect_to='quip',
-        ),
+        migrations.AlterOrderWithRespectTo(name="quote", order_with_respect_to="quip",),
         migrations.RunPython(copy_old_quote_order),
     ]

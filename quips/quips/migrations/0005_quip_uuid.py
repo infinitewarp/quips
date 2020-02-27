@@ -9,13 +9,15 @@ import uuid
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('quips', '0004_clique_20170901_0223'),
+        ("quips", "0004_clique_20170901_0223"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='quip',
-            name='uuid',
-            field=models.UUIDField(default=uuid.uuid4, editable=False, unique=True, verbose_name='UUID'),
+            model_name="quip",
+            name="uuid",
+            field=models.UUIDField(
+                default=uuid.uuid4, editable=False, unique=True, verbose_name="UUID"
+            ),
         ),
     ]
