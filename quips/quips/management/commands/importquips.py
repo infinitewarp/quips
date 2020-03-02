@@ -14,6 +14,17 @@ class AlreadyExistsException(Exception):
     """Raise when the new data already exists in the database."""
 
 
+class AbortedImport(Exception):
+    """Raise when user wants to abort the import process."""
+
+    def __str__(self):
+        return "Aborted import."
+
+
+def get_input(message):
+    return input(message)
+
+
 class Command(BaseCommand):
     help = "Imports a CSV file containing quips data"
 
@@ -64,18 +75,26 @@ class Command(BaseCommand):
     def _handle_file(self, the_file):
         """Read the CSV and import its contents."""
         successes = 0
+        new_quips = list()
         for row_num, row in enumerate(csv.reader(the_file)):
             try:
-                self._import_quip_row(row)
+                new_quips.append(self._import_quip_row(row))
                 successes += 1
             except Exception as e:
                 self.stderr.write(
                     self.style.ERROR("Failed to import row {}: {}".format(row_num, e))
                 )
                 raise e
-        self.stdout.write(
-            self.style.SUCCESS("Successfully imported {} quips".format(successes))
-        )
+        if new_quips:
+            self.stdout.write(
+                self.style.SUCCESS("Successfully imported {} quips".format(successes))
+            )
+            answer = get_input("Save changes? [Y/n]")
+            if answer != "Y":
+                raise AbortedImport()
+        else:
+            self.stderr.write(self.style.WARNING("No new quips found."))
+        return new_quips
 
     def _import_quip_row(self, row):
         """

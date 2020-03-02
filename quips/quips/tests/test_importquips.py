@@ -1,5 +1,6 @@
 import csv
 import io
+from unittest.mock import patch
 
 import faker
 from django.test import TestCase
@@ -187,3 +188,51 @@ class ImportQuipsTest(TestCase):
         self.assertTrue(
             command._quote_already_exists(quip_date, first_name, first_quote)
         )
+
+    @patch("quips.quips.management.commands.importquips.get_input", return_value="N")
+    def test_handle_file_aborts_without_confirmation(self, mock_get_input):
+        row = [FAKER.date(), FAKER.sentence(), FAKER.sentence(), FAKER.name()]
+
+        with io.StringIO() as the_file:
+            csv_writer = csv.writer(the_file, delimiter=",")
+            csv_writer.writerow(row)
+            the_file.seek(0)
+
+            with io.StringIO() as stdout, io.StringIO() as stderr:
+                options = {"purge": False, "file": the_file}
+                ImportQuipsCommand(stdout=stdout, stderr=stderr).handle(**options)
+                stderr.seek(0)
+                stderr_str = stderr.read()
+                self.assertIn("Aborted import", stderr_str)
+                self.assertIn("Rolling back", stderr_str)
+
+        mock_get_input.assert_called_once()
+        self.assertEqual(models.Speaker.objects.all().count(), 0)
+        self.assertEqual(models.Quote.objects.all().count(), 0)
+        self.assertEqual(models.Quip.objects.all().count(), 0)
+
+    @patch("quips.quips.management.commands.importquips.get_input", return_value="Y")
+    def test_handle_file_saves_with_confirmation(self, mock_get_input):
+        row = [FAKER.date(), FAKER.sentence(), FAKER.sentence(), FAKER.name()]
+
+        with io.StringIO() as the_file:
+            csv_writer = csv.writer(the_file, delimiter=",")
+            csv_writer.writerow(row)
+            the_file.seek(0)
+
+            with io.StringIO() as stdout, io.StringIO() as stderr:
+                options = {"purge": False, "file": the_file}
+                ImportQuipsCommand(stdout=stdout, stderr=stderr).handle(**options)
+                stderr.seek(0)
+                stderr_str = stderr.read()
+                self.assertNotIn("Aborted import", stderr_str)
+                self.assertNotIn("Rolling back", stderr_str)
+                stdout.seek(0)
+                stdout_str = stdout.read()
+                self.assertIn("did not exist and has been created", stdout_str)
+                self.assertIn("Successfully imported 1 quips", stdout_str)
+
+        mock_get_input.assert_called_once()
+        self.assertEqual(models.Speaker.objects.all().count(), 1)
+        self.assertEqual(models.Quote.objects.all().count(), 1)
+        self.assertEqual(models.Quip.objects.all().count(), 1)
