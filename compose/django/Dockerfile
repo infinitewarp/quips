@@ -4,11 +4,12 @@ ENV PYTHONUNBUFFERED 1
 
 RUN groupadd -r django \
     && useradd -r -g django django
-RUN pip install pipenv
+RUN pip install poetry
 
 # Install here so packages can be cached ahead of the app itself.
-COPY Pipfile Pipfile.lock /
-RUN pipenv install --deploy --system --ignore-pipfile
+COPY poetry.lock pyproject.toml /
+RUN poetry config virtualenvs.create false \
+  && poetry install --verbose --no-dev --no-interaction --no-ansi
 
 COPY ./compose/django/gunicorn.sh ./compose/django/entrypoint.sh /
 RUN sed -i 's/\r//' /entrypoint.sh \

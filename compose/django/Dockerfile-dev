@@ -1,11 +1,12 @@
 FROM python:3.7
 ENV PYTHONUNBUFFERED 1
 
-RUN pip install pipenv
+RUN pip install poetry
 
 # Install here so packages can be cached ahead of the app itself.
-COPY Pipfile Pipfile.lock /
-RUN pipenv install --dev --deploy --system --ignore-pipfile
+COPY poetry.lock pyproject.toml /
+RUN poetry config virtualenvs.create false \
+  && poetry install --verbose --no-interaction --no-ansi
 
 COPY ./compose/django/entrypoint.sh /entrypoint.sh
 RUN sed -i 's/\r//' /entrypoint.sh
