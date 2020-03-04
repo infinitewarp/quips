@@ -12,6 +12,7 @@ services:
       - postgres_backup_dev:/backups
     environment:
       - POSTGRES_USER=quips
+      - POSTGRES_PASSWORD=quips
     expose:
       - 5432
     ports:
@@ -26,6 +27,7 @@ services:
       - postgres
     environment:
       - POSTGRES_USER=quips
+      - POSTGRES_PASSWORD=quips
       - USE_DOCKER=yes
     volumes:
       - .:/app
