@@ -63,3 +63,5 @@ tests/.hitch
 
 # MailHog binary
 mailhog
+
+.vscode
