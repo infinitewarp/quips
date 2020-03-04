@@ -3,13 +3,13 @@ image: python:3.7
 flake8:
   stage: test
   before_script:
-    - pip install tox pipenv
+    - pip install tox poetry
   script: tox -eflake8
 
 unit tests:
   stage: test
   before_script:
-    - pip install tox pipenv codecov
+    - pip install tox poetry codecov
   script:
     - tox -epy37
     - codecov
