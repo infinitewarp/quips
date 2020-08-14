@@ -8,8 +8,8 @@ from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 
+from quips.quips.anonymize import obfuscate_name
 from quips.quips.models import Speaker
-from quips.website.templatetags.quips_extras import obfuscate_name
 from quips.website.views import QuipRandomObjectBaseMixin
 
 
