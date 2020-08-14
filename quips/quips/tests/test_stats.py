@@ -14,7 +14,7 @@ class StatsTest(TestCase):
     def test_build_stats(self) -> None:
         """Test stats are built appropriately with known fixture data."""
         the_stats = stats._build_stats()
-        self.assertEqual(the_stats["clique_count"], 2)
+        self.assertEqual(the_stats["clique_count"], 3)
         self.assertEqual(the_stats["quip_count"], 6)
         self.assertEqual(the_stats["quote_count"], 13)
         self.assertEqual(the_stats["speaker_count"], 6)

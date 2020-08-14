@@ -36,7 +36,7 @@ class ApiViewsTest(APITestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, http.HTTPStatus.OK)
         response_json = response.json()
-        self.assertEqual(response_json["clique_count"], 2)
+        self.assertEqual(response_json["clique_count"], 3)
         self.assertEqual(response_json["quip_count"], 6)
         self.assertEqual(response_json["quote_count"], 13)
         self.assertEqual(response_json["speaker_count"], 6)

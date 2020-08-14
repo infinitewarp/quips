@@ -16,12 +16,21 @@
         }
     },
     {
+        "model": "quips.clique",
+        "pk": 3,
+        "fields": {
+            "name": "starfleet",
+            "slug": "starfleet"
+        }
+    },
+    {
         "model": "quips.speaker",
         "pk": 1,
         "fields": {
             "name": "Jean-Luc Picard",
             "cliques": [
-                1
+                1,
+                3
             ]
         }
     },
@@ -31,7 +40,8 @@
         "fields": {
             "name": "William Riker",
             "cliques": [
-                1
+                1,
+                3
             ]
         }
     },
@@ -52,7 +62,8 @@
             "name": "Spock",
             "cliques": [
                 1,
-                2
+                2,
+                3
             ]
         }
     },
@@ -72,7 +83,8 @@
         "fields": {
             "name": "James T. Kirk",
             "cliques": [
-                2
+                2,
+                3
             ]
         }
     },
