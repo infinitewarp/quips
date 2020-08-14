@@ -1,3 +1,5 @@
+import random
+
 from django.conf import settings
 from django.http import Http404
 from django.utils.translation import ugettext as _
@@ -47,14 +49,25 @@ class QuipRandomObjectBaseMixin(SingleObjectMixin):
     model = Quip
 
     def get_object(self, queryset=None):
+        """
+        Get the random Quip object.
+
+        Note for historic context: This function used to add calls to
+        the base queryset `.order_by("?").first()` to get one shuffled
+        item from the database. Unfortunately, some of our queries have
+        grown so complex (see: `filter_by_clique_and_speaker_id`) that
+        the Django query builder breaks and cannot use that style of
+        random ordering. So, we have to find a random offset ourselves.
+        This potentially comes with some cost of executing arguably
+        unnecessary additional DB queries, but at least it works.
+        """
         if queryset is None:
             queryset = self.get_queryset()
-        if queryset.count() == 0:
+        result_count = queryset.count()
+        if result_count == 0:
             raise Http404()
-        return self.first_random(queryset)
-
-    def first_random(self, queryset):
-        return queryset.order_by("?").first()
+        random_offset = random.randrange(0, result_count)
+        return queryset.order_by("id")[random_offset]
 
 
 class QuipRandomView(QuipRandomObjectBaseMixin, DetailView):
