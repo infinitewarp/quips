@@ -1,7 +1,5 @@
 """View functionality to handle Slack's slash-command requests."""
 
-import uuid
-
 from django.http import JsonResponse
 from django.urls import reverse
 from django.utils.decorators import method_decorator
@@ -9,7 +7,13 @@ from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 
 from quips.quips.anonymize import obfuscate_name
-from quips.quips.models import Speaker
+from quips.quips.filters import (
+    InputNotValidUUID,
+    QuipUuidNotFound,
+    SpeakerNameNotFound,
+    filter_by_speaker_name,
+    filter_by_uuid,
+)
 from quips.website.views import QuipRandomObjectBaseMixin
 
 
@@ -65,30 +69,6 @@ def format_response_generic_error(command_text):
     return response
 
 
-def filter_by_uuid(queryset, uuid_string):
-    """Filter a Quip-based queryset by UUID."""
-    try:
-        quip_uuid = uuid.UUID(uuid_string)
-    except ValueError:
-        raise InputNotValidUUID()
-    queryset = queryset.filter(uuid=quip_uuid)
-    if queryset.count() == 0:
-        raise QuipUuidNotFound()
-    return queryset
-
-
-def filter_by_speaker_name(queryset, speaker_name):
-    """Filter a Quip-based queryset by Quote's Speaker's name."""
-    try:
-        speaker = Speaker.objects.filter(name__icontains=speaker_name).first()
-        if speaker is None:
-            raise SpeakerNameNotFound()
-        queryset = queryset.filter(quotes__speaker=speaker)
-    except queryset.model.DoesNotExist:
-        raise SpeakerNameNotFound()
-    return queryset
-
-
 @method_decorator(csrf_exempt, name="dispatch")
 class QuipSlackView(QuipRandomObjectBaseMixin, View):
     """View to handle a Slack app's slash-command integration."""
@@ -134,15 +114,3 @@ class QuipSlackView(QuipRandomObjectBaseMixin, View):
             command_text = self.get_command_text(self)
             response = format_response_generic_error(command_text)
         return JsonResponse(response)
-
-
-class SpeakerNameNotFound(Exception):
-    """A quip with the given speaker name was not found."""
-
-
-class QuipUuidNotFound(Exception):
-    """A quip with the given UUID was not found."""
-
-
-class InputNotValidUUID(Exception):
-    """The provided input string was not a valid UUID."""

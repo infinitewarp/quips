@@ -22,7 +22,7 @@ class WebsiteViewsTest(TestCase):
         url = reverse("website:base")
 
         default_quip = models.Quip.objects.all()[0]  # "The First Duty"
-        with self.settings(DEFAULT_QUIP_UUID=default_quip.uuid):
+        with self.settings(DEFAULT_QUIP_UUID=str(default_quip.uuid)):
             response = self.client.get(url)
         self.assertQuipInResponse(default_quip, response)
 

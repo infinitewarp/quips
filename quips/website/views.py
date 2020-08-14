@@ -1,10 +1,16 @@
 from django.conf import settings
-from django.core.exceptions import ValidationError
 from django.http import Http404
 from django.utils.translation import ugettext as _
 from django.views.generic.detail import DetailView, SingleObjectMixin
 
-from quips.quips.models import Clique, Quip, Speaker
+from quips.quips.filters import (
+    InputNotValidUUID,
+    QuipUuidNotFound,
+    filter_by_clique_and_speaker_id,
+    filter_by_speaker_id,
+    filter_by_uuid,
+)
+from quips.quips.models import Quip
 
 
 class QuipDetailView(DetailView):
@@ -12,7 +18,7 @@ class QuipDetailView(DetailView):
 
     def get_object(self, queryset=None):
         """
-        Return the object the view is displaying.
+        Return the Quip object the view is displaying.
 
         Override default behavior from django.views.generic.SingleObjectMixin
         to exclusively get the Quip object by its uuid.
@@ -20,19 +26,15 @@ class QuipDetailView(DetailView):
         if queryset is None:
             queryset = self.get_queryset()
 
-        uuid = self.kwargs.get("uuid")
+        uuid_string = self.kwargs.get("uuid")
         try:
-            queryset = queryset.filter(uuid=uuid)
-            obj = queryset.get()
-        except (ValidationError, ValueError, queryset.model.DoesNotExist):
-            # ValidationError and ValueError are to deal with malformed inputs
-            # that aren't valid uuids.
+            quip = filter_by_uuid(queryset, uuid_string).get()
+        except (InputNotValidUUID, QuipUuidNotFound, queryset.model.DoesNotExist):
             raise Http404(
                 _("No %(verbose_name)s found matching the query")
-                % {"verbose_name": queryset.model._meta.verbose_name}
+                % {"verbose_name": self.model._meta.verbose_name}
             )
-
-        return obj
+        return quip
 
 
 class QuipDefaultView(QuipDetailView):
@@ -62,16 +64,9 @@ class QuipRandomView(QuipRandomObjectBaseMixin, DetailView):
 class QuipRandomSpeakerView(QuipRandomView):
     def get_queryset(self):
         queryset = super(QuipRandomSpeakerView, self).get_queryset()
-        queryset = self.filter_by_speaker_id(queryset)
-        return queryset
-
-    def filter_by_speaker_id(self, queryset):
         speaker_id = self.request.GET.get("speaker_id")
-        if speaker_id is None:
-            return queryset
         try:
-            speaker = Speaker.objects.filter(pk=speaker_id).first()
-            queryset = queryset.filter(quotes__speaker=speaker)
+            queryset = filter_by_speaker_id(queryset, speaker_id)
         except queryset.model.DoesNotExist:
             raise Http404()
         return queryset
@@ -82,18 +77,9 @@ class QuipRandomCliqueSpeakerView(QuipRandomView):
 
     def get_queryset(self):
         queryset = super(QuipRandomCliqueSpeakerView, self).get_queryset()
-        queryset = self.filter_by_clique_and_speaker_id(queryset)
-        return queryset
-
-    def filter_by_clique_and_speaker_id(self, queryset):
-        slug = self.kwargs.get("slug")
+        clique_slug = self.kwargs.get("slug")
         speaker_id = self.request.GET.get("speaker_id")
-
-        clique = Clique.objects.filter(slug=slug)
-        speakers = Speaker.objects.filter(cliques__in=clique)
-        if speaker_id is not None:
-            speakers = speakers.filter(pk=speaker_id)
-        queryset = queryset.filter(quotes__speaker__in=speakers)
+        queryset = filter_by_clique_and_speaker_id(queryset, clique_slug, speaker_id)
         return queryset
 
     def get_context_data(self, **kwargs):
