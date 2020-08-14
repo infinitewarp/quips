@@ -22,6 +22,7 @@ whitenoise = "*"
 djangorestframework = "*"
 
 [tool.poetry.dev-dependencies]
+black = { version = "*", allow-prereleases = true }
 django-extensions = "*"
 flake8 = "*"
 flake8-docstrings = "*"
