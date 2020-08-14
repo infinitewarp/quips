@@ -65,3 +65,4 @@ tests/.hitch
 mailhog
 
 .vscode
+quips.egg-info
