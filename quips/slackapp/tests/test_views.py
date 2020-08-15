@@ -14,8 +14,11 @@ class SlackappViewsTest(TestCase):
     fixtures = ["trek"]
 
     def setUp(self):
-        self.quip_first_duty = models.Quip.objects.get(pk=1)
-        self.speaker_riker = models.Speaker.objects.get(pk=2)
+        self.quip_first_duty = models.Quip.objects.get(id=1)
+        self.quip_i_mudd = models.Quip.objects.get(id=5)
+        self.quip_city = models.Quip.objects.get(id=6)
+        self.speaker_riker = models.Speaker.objects.get(id=2)
+        self.clique_tos = models.Clique.objects.get(id=2)
 
     def assertValidResponse(self, response, in_channel=True, contents=None):
         self.assertEqual(response.status_code, http.HTTPStatus.OK)
@@ -79,8 +82,23 @@ class SlackappViewsTest(TestCase):
         quip_speakers = [quote.speaker for quote in quip.quotes.all()]
         self.assertIn(self.speaker_riker, quip_speakers)
 
-    def test_post_speaker_name_not_found(self):
-        """Assert handling a POST containing an unrecognized Speaker name."""
+    def test_post_clique(self):
+        """Assert handling a POST containing a valid Clique slug."""
+        clique_slug = self.clique_tos.slug
+        post_body = {"text": clique_slug}
+        url = reverse("slackapp:slackbot")
+        response = self.client.post(url, post_body)
+        content_dict = self.assertValidResponse(response)
+
+        # This split should be reliable because the URL is always on the last line.
+        response_url_uuid = content_dict["text"].split()[-1].split("/")[-2]
+        # The UUID should match only one of these two known Quips.
+        self.assertIn(
+            response_url_uuid, (str(self.quip_i_mudd.uuid), str(self.quip_city.uuid))
+        )
+
+    def test_post_no_quip_found(self):
+        """Assert handling a POST containing a value that can find no Quip."""
         speaker_name = "Washburne"
         post_body = {"text": speaker_name}
         url = reverse("slackapp:slackbot")

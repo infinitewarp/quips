@@ -9,6 +9,7 @@ from django.views.decorators.csrf import csrf_exempt
 from quips.quips.anonymize import obfuscate_name
 from quips.quips.filters import (
     InputNotValidUUID,
+    filter_by_clique,
     filter_by_speaker_name,
     filter_by_uuid,
 )
@@ -64,6 +65,7 @@ class QuipSlackView(QuipRandomObjectBaseMixin, View):
         If no input is given, use the default queryset for any Quip.
         If the input appears to be a UUID, filter on Quip's UUID.
         Else, filter assuming the input is a Speaker's name (or part of one).
+        If no results by name, filter assuming the input is a Clique slug.
         """
         queryset = super(QuipSlackView, self).get_queryset()
         filter_input = self.get_command_text()
@@ -73,7 +75,11 @@ class QuipSlackView(QuipRandomObjectBaseMixin, View):
         try:
             queryset = filter_by_uuid(queryset, filter_input)
         except InputNotValidUUID:
-            queryset = filter_by_speaker_name(queryset, filter_input)
+            queryset_by_name = filter_by_speaker_name(queryset, filter_input)
+            if queryset_by_name.count() > 0:
+                queryset = queryset_by_name
+            else:
+                queryset = filter_by_clique(queryset, filter_input.lower())
         return queryset
 
     def post(self, request, *args, **kwargs):
