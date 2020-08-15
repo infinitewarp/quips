@@ -77,7 +77,8 @@ class QuipRandomSpeakerView(QuipRandomView):
     def get_queryset(self):
         queryset = super(QuipRandomSpeakerView, self).get_queryset()
         speaker_id = self.request.GET.get("speaker_id")
-        queryset = filter_by_speaker_id(queryset, speaker_id)
+        if speaker_id:
+            queryset = filter_by_speaker_id(queryset, speaker_id)
         return queryset
 
 

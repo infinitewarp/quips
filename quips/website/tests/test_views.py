@@ -56,6 +56,13 @@ class WebsiteViewsTest(TestCase):
         response = self.client.get(url)
         self.assertResponseNotFound(response)
 
+    def test_random_quip(self):
+        """Test the website's random quip by speaker view."""
+        url = reverse("website:random")
+        response = self.client.get(url)
+        content = self.assertResponseOK(response)
+        self.assertIn(url, content)
+
     def test_random_quip_speaker_detail(self):
         """Test the website's random quip by speaker view."""
         speaker = models.Speaker.objects.get(id=5)  # Harcourt Fenton Mudd has 1 quip
