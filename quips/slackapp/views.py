@@ -105,12 +105,12 @@ class QuipSlackView(QuipRandomObjectBaseMixin, View):
             )
             response = format_response_quip(quip, quip_absolute_uri)
         except SpeakerNameNotFound:
-            command_text = self.get_command_text(self)
+            command_text = self.get_command_text()
             response = format_response_speaker_not_found(command_text)
         except QuipUuidNotFound:
-            command_text = self.get_command_text(self)
+            command_text = self.get_command_text()
             response = format_response_uuid_not_found(command_text)
         except:  # noqa: E722
-            command_text = self.get_command_text(self)
+            command_text = self.get_command_text()
             response = format_response_generic_error(command_text)
         return JsonResponse(response)
