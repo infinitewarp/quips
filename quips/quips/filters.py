@@ -10,37 +10,31 @@ def filter_by_uuid(queryset, uuid_string):
     except ValueError:
         raise InputNotValidUUID()
     queryset = queryset.filter(uuid=quip_uuid)
-    if queryset.count() == 0:
-        raise QuipUuidNotFound()
     return queryset
 
 
 def filter_by_speaker_name(queryset, speaker_name):
     """Filter a Quip-based queryset by Quote's Speaker's name."""
-    try:
-        speaker = Speaker.objects.filter(name__icontains=speaker_name).first()
-        if speaker is None:
-            raise SpeakerNameNotFound()
-        queryset = queryset.filter(quotes__speaker=speaker)
-    except queryset.model.DoesNotExist:
-        raise SpeakerNameNotFound()
+    speaker = Speaker.objects.filter(name__icontains=speaker_name).first()
+    queryset = queryset.filter(quotes__speaker=speaker)
     return queryset
 
 
 def filter_by_speaker_id(queryset, speaker_id):
     """Filter a Quip-based queryset by Quote's Speaker's id."""
-    if speaker_id is None:
-        return queryset
-    speaker = Speaker.objects.filter(pk=speaker_id).first()
-    queryset = queryset.filter(quotes__speaker=speaker)
+    queryset = queryset.filter(quotes__speaker_id=speaker_id)
     return queryset
 
 
-def filter_by_clique_and_speaker_id(queryset, clique_slug, speaker_id):
+def filter_by_clique(queryset, clique_slug):
     """
-    Filter a Quip-based queryset by Clique and optionally Speaker's id.
+    Filter a Quip-based queryset by Clique.
 
     The input queryset should be a Quip-based queryset.
+
+    Note: Due to the way the difference function works, this function should
+    always be called last after any other filters (e.g. filter_by_speaker_id)
+    or else you may encounter unexpected runtime errors.
 
     The queryset construction is rather complicated because the output should
     be quips wherein all of their quotes belong to speakers in the same clique.
@@ -75,23 +69,11 @@ def filter_by_clique_and_speaker_id(queryset, clique_slug, speaker_id):
     # quips = queryset.exclude(quote_id__in=not_clique_quotes.values("id"))
     exclude_quips = queryset.filter(quotes__in=not_clique_quotes)
 
-    # Optionally filter the base set of all quips on the requested speaker.
-    if speaker_id:
-        all_quips = all_quips.filter(quotes__speaker_id=speaker_id)
-
     # Find all *other* quips *not* having the excluded quotes.
     # This should result on quotes with *all* their speakers in the clique.
     all_quips = all_quips.difference(exclude_quips)
 
     return all_quips
-
-
-class SpeakerNameNotFound(Exception):
-    """A Quip with the given Speaker name was not found."""
-
-
-class QuipUuidNotFound(Exception):
-    """A Quip with the given UUID was not found."""
 
 
 class InputNotValidUUID(Exception):

@@ -27,8 +27,8 @@ class FitersTest(TestCase):
 
     def test_filter_by_uuid_not_found(self):
         uuid_string = str(uuid.uuid4())
-        with self.assertRaises(filters.QuipUuidNotFound):
-            filters.filter_by_uuid(self.queryset, uuid_string)
+        queryset = filters.filter_by_uuid(self.queryset, uuid_string)
+        self.assertEqual(queryset.count(), 0)
 
     def test_filter_by_uuid_bad_uuid(self):
         uuid_string = "1234-nota-real-uuid"
@@ -47,8 +47,8 @@ class FitersTest(TestCase):
 
     def test_filter_by_speaker_name_not_found(self):
         unknown_name = "Ed Mercer"
-        with self.assertRaises(filters.SpeakerNameNotFound):
-            filters.filter_by_speaker_name(self.queryset, unknown_name)
+        queryset = filters.filter_by_speaker_name(self.queryset, unknown_name)
+        self.assertEqual(queryset.count(), 0)
 
     def test_filter_by_speaker_id(self):
         known_speaker = self.speaker_picard
@@ -60,20 +60,29 @@ class FitersTest(TestCase):
         self.assertIn(speaker_quip, filtered_quips)
         self.assertNotIn(not_speaker_quip, filtered_quips)
 
-    def test_filter_by_clique_and_speaker_id_clique_only(self):
+    def test_filter_by_clique(self):
         sf_clique_slug = self.clique_sf.slug
-        sf_quips = filters.filter_by_clique_and_speaker_id(
-            self.queryset, sf_clique_slug, None
-        ).all()
+        sf_quips = filters.filter_by_clique(self.queryset, sf_clique_slug).all()
         self.assertIn(self.quip_first_duty, sf_quips)
         self.assertIn(self.quip_unification, sf_quips)
         self.assertNotIn(self.quip_i_mudd, sf_quips)
 
-    def test_filter_by_clique_and_speaker_id_clique_and_speaker(self):
+    def test_filter_by_clique_not_found(self):
         sf_clique_slug = self.clique_sf.slug
-        sf_spock_quips = filters.filter_by_clique_and_speaker_id(
-            self.queryset, sf_clique_slug, self.speaker_spock.id
-        ).all()
+        sf_quips = filters.filter_by_clique(self.queryset, sf_clique_slug).all()
+        self.assertIn(self.quip_first_duty, sf_quips)
+        self.assertIn(self.quip_unification, sf_quips)
+        self.assertNotIn(self.quip_i_mudd, sf_quips)
+
+    def test_filter_by_speaker_id_and_filter_by_clique(self):
+        quips_by_speaker_id = filters.filter_by_speaker_id(
+            self.queryset, self.speaker_spock.id
+        )
+        quips_by_speaker_and_clique = filters.filter_by_clique(
+            quips_by_speaker_id, self.clique_sf.slug
+        )
+        sf_spock_quips = quips_by_speaker_and_clique.all()
+
         self.assertNotIn(self.quip_first_duty, sf_spock_quips)
         self.assertIn(self.quip_unification, sf_spock_quips)
         self.assertNotIn(self.quip_i_mudd, sf_spock_quips)

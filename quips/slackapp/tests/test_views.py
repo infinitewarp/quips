@@ -86,5 +86,5 @@ class SlackappViewsTest(TestCase):
         url = reverse("slackapp:slackbot")
         response = self.client.post(url, post_body)
         self.assertValidResponse(
-            response, in_channel=False, contents=["No quips found", speaker_name]
+            response, in_channel=False, contents=["No quip found", speaker_name]
         )

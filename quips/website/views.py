@@ -7,8 +7,7 @@ from django.views.generic.detail import DetailView, SingleObjectMixin
 
 from quips.quips.filters import (
     InputNotValidUUID,
-    QuipUuidNotFound,
-    filter_by_clique_and_speaker_id,
+    filter_by_clique,
     filter_by_speaker_id,
     filter_by_uuid,
 )
@@ -31,7 +30,7 @@ class QuipDetailView(DetailView):
         uuid_string = self.kwargs.get("uuid")
         try:
             quip = filter_by_uuid(queryset, uuid_string).get()
-        except (InputNotValidUUID, QuipUuidNotFound, queryset.model.DoesNotExist):
+        except InputNotValidUUID:
             raise Http404(
                 _("No %(verbose_name)s found matching the query")
                 % {"verbose_name": self.model._meta.verbose_name}
@@ -55,11 +54,11 @@ class QuipRandomObjectBaseMixin(SingleObjectMixin):
         Note for historic context: This function used to add calls to
         the base queryset `.order_by("?").first()` to get one shuffled
         item from the database. Unfortunately, some of our queries have
-        grown so complex (see: `filter_by_clique_and_speaker_id`) that
-        the Django query builder breaks and cannot use that style of
-        random ordering. So, we have to find a random offset ourselves.
-        This potentially comes with some cost of executing arguably
-        unnecessary additional DB queries, but at least it works.
+        grown so complex (see: `filter_by_clique`) that the Django query
+        builder breaks and cannot use that style of random ordering. So,
+        we have to find a random offset ourselves. This potentially comes
+        with some cost of executing arguably unnecessary additional DB
+        queries, but at least it works.
         """
         if queryset is None:
             queryset = self.get_queryset()
@@ -78,10 +77,7 @@ class QuipRandomSpeakerView(QuipRandomView):
     def get_queryset(self):
         queryset = super(QuipRandomSpeakerView, self).get_queryset()
         speaker_id = self.request.GET.get("speaker_id")
-        try:
-            queryset = filter_by_speaker_id(queryset, speaker_id)
-        except queryset.model.DoesNotExist:
-            raise Http404()
+        queryset = filter_by_speaker_id(queryset, speaker_id)
         return queryset
 
 
@@ -91,8 +87,12 @@ class QuipRandomCliqueSpeakerView(QuipRandomView):
     def get_queryset(self):
         queryset = super(QuipRandomCliqueSpeakerView, self).get_queryset()
         clique_slug = self.kwargs.get("slug")
+        if not clique_slug:
+            raise Http404()
         speaker_id = self.request.GET.get("speaker_id")
-        queryset = filter_by_clique_and_speaker_id(queryset, clique_slug, speaker_id)
+        if speaker_id:
+            queryset = filter_by_speaker_id(queryset, speaker_id)
+        queryset = filter_by_clique(queryset, clique_slug)
         return queryset
 
     def get_context_data(self, **kwargs):

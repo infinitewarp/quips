@@ -1,6 +1,6 @@
 """View functionality to handle Slack's slash-command requests."""
 
-from django.http import JsonResponse
+from django.http import Http404, JsonResponse
 from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views import View
@@ -9,8 +9,6 @@ from django.views.decorators.csrf import csrf_exempt
 from quips.quips.anonymize import obfuscate_name
 from quips.quips.filters import (
     InputNotValidUUID,
-    QuipUuidNotFound,
-    SpeakerNameNotFound,
     filter_by_speaker_name,
     filter_by_uuid,
 )
@@ -42,29 +40,11 @@ def format_response_quip(quip, quip_absolute_uri):
     return response
 
 
-def format_response_uuid_not_found(command_text):
-    """Format an ephemeral error when the quip UUID is not found."""
+def format_response_not_found_error(command_text):
+    """Format an ephemeral error when no Quip is found."""
     response = {
         "response_type": "ephemeral",
-        "text": f"No quip found with UUID `{command_text}`.",
-    }
-    return response
-
-
-def format_response_speaker_not_found(command_text):
-    """Format an ephemeral error when the quip speaker is not found."""
-    response = {
-        "response_type": "ephemeral",
-        "text": f"No quips found involving speaker name like `{command_text}`.",
-    }
-    return response
-
-
-def format_response_generic_error(command_text):
-    """Format an ephemeral error when an unexpected error occurs."""
-    response = {
-        "response_type": "ephemeral",
-        "text": f"Unexpected error trying to find a quip for `{command_text}`.",
+        "text": f"No quip found for `{command_text}`.",
     }
     return response
 
@@ -75,20 +55,20 @@ class QuipSlackView(QuipRandomObjectBaseMixin, View):
 
     def get_command_text(self):
         """Get the slash-command payload's main text component."""
-        return self.request.POST.get("text")
+        return self.request.POST.get("text", "").strip()
 
     def get_queryset(self):
         """
         Get the Quip queryset with additional filters applied.
 
-        If no input is given, use the default queryset.
+        If no input is given, use the default queryset for any Quip.
         If the input appears to be a UUID, filter on Quip's UUID.
         Else, filter assuming the input is a Speaker's name (or part of one).
         """
         queryset = super(QuipSlackView, self).get_queryset()
         filter_input = self.get_command_text()
-        if filter_input is None or len(filter_input.strip()) == 0:
-            # No input? No additional filter!
+        if not filter_input:
+            # No input? Just return any quip without filtering.
             return queryset
         try:
             queryset = filter_by_uuid(queryset, filter_input)
@@ -100,17 +80,14 @@ class QuipSlackView(QuipRandomObjectBaseMixin, View):
         """Handle Slack's typical POST request."""
         try:
             quip = self.get_object()
+        except Http404:
+            quip = None
+        if quip:
             quip_absolute_uri = request.build_absolute_uri(
                 reverse("website:detail", args=(quip.uuid,))
             )
             response = format_response_quip(quip, quip_absolute_uri)
-        except SpeakerNameNotFound:
+        else:
             command_text = self.get_command_text()
-            response = format_response_speaker_not_found(command_text)
-        except QuipUuidNotFound:
-            command_text = self.get_command_text()
-            response = format_response_uuid_not_found(command_text)
-        except:  # noqa: E722
-            command_text = self.get_command_text()
-            response = format_response_generic_error(command_text)
+            response = format_response_not_found_error(command_text)
         return JsonResponse(response)
