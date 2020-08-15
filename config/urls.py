@@ -11,6 +11,7 @@ urlpatterns = [
     # Django Admin, use {% url 'admin:index' %}
     url(settings.ADMIN_URL, admin.site.urls),
     url(r"^quips/api/", include(("quips.api.urls", "api"), namespace="api")),
+    url(r"^quips/", include(("quips.slackapp.urls", "slackapp"), namespace="slackapp")),
     url(r"^quips/", include(("quips.website.urls", "website"), namespace="website")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
