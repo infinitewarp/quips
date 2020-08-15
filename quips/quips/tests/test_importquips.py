@@ -57,7 +57,9 @@ class ImportQuipsTest(TestCase):
             second_name,
         ]
 
-        ImportQuipsCommand()._import_quip_row(row)
+        with io.StringIO() as stdout, io.StringIO() as stderr:
+            command = ImportQuipsCommand(stdout=stdout, stderr=stderr)
+            command._import_quip_row(row)
 
         speakers = models.Speaker.objects.all()
         self.assertEqual(len(speakers), 2)
@@ -96,7 +98,9 @@ class ImportQuipsTest(TestCase):
 
         models.Speaker.objects.create(name=first_name)
 
-        ImportQuipsCommand()._import_quip_row(row)
+        with io.StringIO() as stdout, io.StringIO() as stderr:
+            command = ImportQuipsCommand(stdout=stdout, stderr=stderr)
+            command._import_quip_row(row)
 
         speakers = models.Speaker.objects.all()
         self.assertEqual(len(speakers), 2)
@@ -127,7 +131,9 @@ class ImportQuipsTest(TestCase):
 
         models.Speaker.objects.create(name=first_name)
 
-        ImportQuipsCommand()._import_quip_row(row)
+        with io.StringIO() as stdout, io.StringIO() as stderr:
+            command = ImportQuipsCommand(stdout=stdout, stderr=stderr)
+            command._import_quip_row(row)
 
         speaker = models.Speaker.objects.get()
         self.assertEqual(speaker.name, first_name)
@@ -147,8 +153,9 @@ class ImportQuipsTest(TestCase):
         row = [quip_date, quip_context, first_quote, first_name]
 
         # first import should succeed normally.
-        command = ImportQuipsCommand()
-        command._import_quip_row(row)
+        with io.StringIO() as stdout, io.StringIO() as stderr:
+            command = ImportQuipsCommand(stdout=stdout, stderr=stderr)
+            command._import_quip_row(row)
 
         with self.assertRaises(AlreadyExistsException) as assert_context:
             command._import_quip_row(row)
@@ -162,8 +169,9 @@ class ImportQuipsTest(TestCase):
         first_quote = FAKER.sentence()
         row = [quip_date, quip_context, first_quote, first_name]
 
-        command = ImportQuipsCommand()
-        command._import_quip_row(row)
+        with io.StringIO() as stdout, io.StringIO() as stderr:
+            command = ImportQuipsCommand(stdout=stdout, stderr=stderr)
+            command._import_quip_row(row)
 
         new_quip_date = str(FAKER.date())
         new_first_name = FAKER.name()
@@ -182,8 +190,9 @@ class ImportQuipsTest(TestCase):
         first_quote = FAKER.sentence()
         row = [quip_date, quip_context, first_quote, first_name]
 
-        command = ImportQuipsCommand()
-        command._import_quip_row(row)
+        with io.StringIO() as stdout, io.StringIO() as stderr:
+            command = ImportQuipsCommand(stdout=stdout, stderr=stderr)
+            command._import_quip_row(row)
 
         self.assertTrue(
             command._quote_already_exists(quip_date, first_name, first_quote)
