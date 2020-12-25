@@ -8,5 +8,8 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(model_name="quote", name="old_order",),
+        migrations.RemoveField(
+            model_name="quote",
+            name="old_order",
+        ),
     ]

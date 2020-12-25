@@ -58,7 +58,10 @@ class Migration(migrations.Migration):
                     ),
                 ),
             ],
-            options={"ordering": ("order",), "abstract": False,},
+            options={
+                "ordering": ("order",),
+                "abstract": False,
+            },
         ),
         migrations.CreateModel(
             name="Speaker",

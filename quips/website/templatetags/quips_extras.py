@@ -11,13 +11,13 @@ register.filter("obfuscate_name", obfuscate_name)
 GIPHY_HTML_IFRAME = (
     '<iframe src="//giphy.com/embed/{0}?html5=true&hideSocial=true" '
     'width="{1}" height="{2}" frameborder="0" class="giphy-embed" '
-    'allowfullscreen></iframe>'
+    "allowfullscreen></iframe>"
 )
 GIPHY_HTML_VIDEO = (
     '<video style="width: {1}px; height: {2}px; left: 0px; top: 0px;" '
     'src="https://media4.giphy.com/media/{0}/giphy.mp4" '
     'poster="https://media4.giphy.com/media/{0}/giphy_s.gif" '
-    'autoplay loop playsinline controls></video>'
+    "autoplay loop playsinline controls></video>"
 )
 GIPHY_HTML = GIPHY_HTML_VIDEO if settings.GIPHY_HTML_VIDEO else GIPHY_HTML_IFRAME
 # TODO Make this configurable/DB-driven?

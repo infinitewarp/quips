@@ -25,10 +25,18 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AlterModelOptions(name="quote", options={},),
-        migrations.RenameField(
-            model_name="quote", old_name="order", new_name="old_order",
+        migrations.AlterModelOptions(
+            name="quote",
+            options={},
         ),
-        migrations.AlterOrderWithRespectTo(name="quote", order_with_respect_to="quip",),
+        migrations.RenameField(
+            model_name="quote",
+            old_name="order",
+            new_name="old_order",
+        ),
+        migrations.AlterOrderWithRespectTo(
+            name="quote",
+            order_with_respect_to="quip",
+        ),
         migrations.RunPython(copy_old_quote_order),
     ]

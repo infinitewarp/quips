@@ -15,7 +15,9 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AlterModelManagers(
             name="site",
-            managers=[("objects", django.contrib.sites.models.SiteManager()),],
+            managers=[
+                ("objects", django.contrib.sites.models.SiteManager()),
+            ],
         ),
         migrations.AlterField(
             model_name="site",

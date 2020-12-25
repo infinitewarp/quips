@@ -40,6 +40,8 @@ class Migration(migrations.Migration):
                 "db_table": "django_site",
                 "ordering": ("domain",),
             },
-            managers=[("objects", django.contrib.sites.models.SiteManager()),],
+            managers=[
+                ("objects", django.contrib.sites.models.SiteManager()),
+            ],
         ),
     ]
