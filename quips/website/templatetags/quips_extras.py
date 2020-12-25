@@ -15,7 +15,6 @@ GIPHYS = [
     '<iframe src="//giphy.com/embed/b1NpJFw89s7UA?html5=true&hideSocial=true" width="480" height="355" frameborder="0" class="giphy-embed" allowfullscreen=""></iframe>',  # noqa
     '<iframe src="//giphy.com/embed/baDHsD0Bk3K5a?html5=true&hideSocial=true" width="480" height="384" frameborder="0" class="giphy-embed" allowfullscreen=""></iframe>',  # noqa
     '<iframe src="//giphy.com/embed/xSM46ernAUN3y?html5=true&hideSocial=true" width="480" height="384" frameborder="0" class="giphy-embed" allowfullscreen=""></iframe>',  # noqa
-    '<iframe src="//giphy.com/embed/oTiG8QJA2Kldm?html5=true&hideSocial=true" width="480" height="384" frameborder="0" class="giphy-embed" allowfullscreen=""></iframe>',  # noqa
     '<iframe src="//giphy.com/embed/jhmjR9RZYS92M?html5=true&hideSocial=true" width="480" height="384" frameborder="0" class="giphy-embed" allowfullscreen=""></iframe>',  # noqa
 ]
 
