@@ -7,22 +7,27 @@ from quips.quips.anonymize import obfuscate_name
 register = template.Library()
 register.filter("obfuscate_name", obfuscate_name)
 
+GIPHY_HTML = (
+    '<iframe src="//giphy.com/embed/{0}?html5=true&hideSocial=true" '
+    'width="{1}" height="{2}" frameborder="0" class="giphy-embed" '
+    'allowfullscreen=""></iframe>'
+)
 # TODO Make this configurable/DB-driven?
-GIPHYS = [
-    '<iframe src="//giphy.com/embed/LPn77YyDIqfhm?html5=true&hideSocial=true" width="480" height="270" frameborder="0" class="giphy-embed" allowfullscreen=""></iframe>',  # noqa
-    '<iframe src="//giphy.com/embed/XsUtdIeJ0MWMo?html5=true&hideSocial=true" width="480" height="360" frameborder="0" class="giphy-embed" allowfullscreen=""></iframe>',  # noqa
-    '<iframe src="//giphy.com/embed/52VjAeGgj78GY?html5=true&hideSocial=true" width="480" height="377" frameborder="0" class="giphy-embed" allowfullscreen=""></iframe>',  # noqa
-    '<iframe src="//giphy.com/embed/b1NpJFw89s7UA?html5=true&hideSocial=true" width="480" height="355" frameborder="0" class="giphy-embed" allowfullscreen=""></iframe>',  # noqa
-    '<iframe src="//giphy.com/embed/baDHsD0Bk3K5a?html5=true&hideSocial=true" width="480" height="384" frameborder="0" class="giphy-embed" allowfullscreen=""></iframe>',  # noqa
-    '<iframe src="//giphy.com/embed/xSM46ernAUN3y?html5=true&hideSocial=true" width="480" height="384" frameborder="0" class="giphy-embed" allowfullscreen=""></iframe>',  # noqa
-    '<iframe src="//giphy.com/embed/jhmjR9RZYS92M?html5=true&hideSocial=true" width="480" height="384" frameborder="0" class="giphy-embed" allowfullscreen=""></iframe>',  # noqa
-    '<iframe src="//giphy.com/embed/gLvBksqQE5j60Ud8R7?html5=true&hideSocial=true" width="480" height="266" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>',  # noqa
-    '<iframe src="//giphy.com/embed/TJawtKM6OCKkvwCIqX?html5=true&hideSocial=true" width="480" height="354" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>',  # noqa
-    '<iframe src="//giphy.com/embed/109Pz1wDYxNLmE?html5=true&hideSocial=true" width="480" height="480" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>',  # noqa
-    '<iframe src="//giphy.com/embed/10p704gIAGRN7i?html5=true&hideSocial=true" width="480" height="360" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>',  # noqa
-    '<iframe src="//giphy.com/embed/wHBkzKahBgFEM1S4GE?html5=true&hideSocial=true" width="480" height="360" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>',  # noqa
-    '<iframe src="//giphy.com/embed/dmB5vD2t2gR8Y?html5=true&hideSocial=true" width="480" height="360" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>',  # noqa
-]
+GIPHY_IDS = (
+    ("LPn77YyDIqfhm", 480, 270),  # "You've Got Mail" Tom Hanks typing
+    ("XsUtdIeJ0MWMo", 480, 360),  # Picard two-handed facepalm (The Offspring)
+    ("52VjAeGgj78GY", 480, 377),  # Picard deal with it
+    ("b1NpJFw89s7UA", 480, 355),  # Picard damn
+    ("baDHsD0Bk3K5a", 480, 384),  # Picard damn you
+    ("xSM46ernAUN3y", 480, 384),  # Jeremiah Johnson nod
+    ("jhmjR9RZYS92M", 480, 384),  # Sisko frown
+    ("TJawtKM6OCKkvwCIqX", 480, 354),  # Picard facepalm (The Drumhead)
+    ("109Pz1wDYxNLmE", 480, 480),  # Picard wink
+    ("10p704gIAGRN7i", 480, 360),  # Worf facepalm (DS9)
+    ("wHBkzKahBgFEM1S4GE", 480, 360),  # Data laughing (Déjà Q)
+    ("dmB5vD2t2gR8Y", 480, 360),  # Data laughing 2 (Déjà Q)
+)
+GIPHYS = [GIPHY_HTML.format(*values) for values in GIPHY_IDS]
 
 
 @register.simple_tag
