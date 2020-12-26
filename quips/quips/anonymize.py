@@ -1,4 +1,6 @@
 import random
+import time
+from datetime import date
 
 from memoize import memoize
 
@@ -16,6 +18,9 @@ def shuffle_word(word):
             + (word[1].upper() if word[2].isupper() else word[1].lower())
         )
     guts = list(word[1:-1])
+    # Rotate the seed daily for predictable name patterns.
+    # Normally a bad idea, this is fine here since we don't need secure randomness.
+    random.seed(time.mktime(date.today().timetuple()))
     random.shuffle(guts)
     new_word = word[0] + "".join(guts) + word[-1]
     if new_word == word:
