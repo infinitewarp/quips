@@ -22,6 +22,7 @@ def shuffle_word(word):
     # Normally a bad idea, this is fine here since we don't need secure randomness.
     random.seed(time.mktime(date.today().timetuple()))
     random.shuffle(guts)
+    random.seed()
     new_word = word[0] + "".join(guts) + word[-1]
     if new_word == word:
         # if shuffle didn't sufficiently randomize, just flip it
