@@ -16,28 +16,44 @@ from quips.quips.filters import (
 from quips.website.views import QuipRandomObjectBaseMixin
 
 
-def stringify_quote(quote):
-    """Format a Quip's Quote into a single line string."""
-    if quote.speaker.should_obfuscate:
-        speaker_name = obfuscate_name(str(quote.speaker))
-    else:
-        speaker_name = str(quote.speaker)
+def build_block_with_quote(quote):
+    """Build a Slack block for a Quip's Quote."""
+    speaker_name = (
+        obfuscate_name(str(quote.speaker))
+        if quote.speaker.should_obfuscate
+        else str(quote.speaker)
+    )
     if quote.is_slash_me:
-        return f"{speaker_name} {quote}"
-    return f"{speaker_name}: {quote}"
+        block = {
+            "type": "context",
+            "elements": [{"type": "mrkdwn", "text": f"_*{speaker_name}* {quote}_"}],
+        }
+    else:
+        block = {
+            "type": "section",
+            "text": {"type": "mrkdwn", "text": f"*{speaker_name}*: {quote}"},
+        }
+    return block
 
 
-def format_response_quip(quip, quip_absolute_uri):
-    """Format a typical in-channel response containing a whole Quip."""
-    lines = [stringify_quote(quote) for quote in quip.quotes.all()]
+def build_response_with_quip(quip, quip_absolute_uri):
+    """Build a typical in-channel response for a whole Quip."""
+    blocks = [build_block_with_quote(quote) for quote in quip.quotes.all()]
+    date_string = f"<{quip_absolute_uri}|{quip.date}>"
     if quip.context:
         context = quip.context.replace("_", r"\_")
-        lines.append(f"_{quip.date}, {context}_")
+        block = {
+            "type": "context",
+            "elements": [{"type": "mrkdwn", "text": f"_{date_string} {context}_"}],
+        }
+        blocks.append(block)
     else:
-        lines.append(f"_{quip.date}_")
-    lines.append(quip_absolute_uri)
-    text = "\n".join(lines)
-    response = {"response_type": "in_channel", "text": text}
+        block = {
+            "type": "context",
+            "elements": [{"type": "mrkdwn", "text": f"_{date_string}_"}],
+        }
+        blocks.append(block)
+    response = {"response_type": "in_channel", "blocks": blocks}
     return response
 
 
@@ -92,7 +108,7 @@ class QuipSlackView(QuipRandomObjectBaseMixin, View):
             quip_absolute_uri = request.build_absolute_uri(
                 reverse("website:detail", args=(quip.uuid,))
             )
-            response = format_response_quip(quip, quip_absolute_uri)
+            response = build_response_with_quip(quip, quip_absolute_uri)
         else:
             command_text = self.get_command_text()
             response = format_response_not_found_error(command_text)
