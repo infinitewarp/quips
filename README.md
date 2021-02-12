@@ -12,13 +12,13 @@ Silly web app for silly quips. :tada:
 
 Install and start Docker:
 
-    brew cask install docker
+    brew install --cask docker
     open -a Docker
 
 Alternatively, using Docker Toolbox for older CPUs that don't have VT-x and
 VT-d:
 
-    brew cask install docker-toolbox
+    brew install --cask docker-toolbox
     docker-machine create -d "virtualbox" mydockermachine
     eval $(docker-machine env mydockermachine)
 
@@ -38,12 +38,12 @@ Creating admin user:
 
 Install and log in to Heroku:
 
-    docker install heroku
+    brew tap heroku/brew && brew install heroku
     heroku login
 
 Add the Heroku remote and push:
 
-    git remote add heroku https://git.heroku.com/quips.git
+    heroku git:remote -a quips  # replace "quips" with your app name
     git push heroku master
 
 ### Importing Quips
