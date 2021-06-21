@@ -230,3 +230,9 @@ RANDOM_QUIP_CACHE_DURATION = env.int(
     "RANDOM_QUIP_CACHE_DURATION", default=60 * 60 * 24
 )  # default to one day
 GIPHY_HTML_VIDEO = env.bool("GIPHY_HTML_VIDEO", default=True)
+
+# New in Django 3.2:
+# 3.1 and older default is 32-bit AutoField. 3.2 now recommends 64-bit BigAutoField.
+# See "Customizing type of auto-created primary keys" in the 3.2 release notes:
+# https://docs.djangoproject.com/en/3.2/releases/3.2/
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
