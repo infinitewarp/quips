@@ -9,14 +9,14 @@ from ..quips.stats import get_cached_stats
 class SpeakerViewSet(viewsets.ReadOnlyModelViewSet):
     """List and get speaker instances."""
 
-    queryset = models.Speaker.objects.all()
+    queryset = models.Speaker.objects.all().order_by("id")
     serializer_class = serializers.SpeakerSerializerWithCliques
 
 
 class CliqueViewSet(viewsets.ReadOnlyModelViewSet):
     """List and get clique instances."""
 
-    queryset = models.Clique.objects.all()
+    queryset = models.Clique.objects.all().order_by("id")
     serializer_class = serializers.CliqueSerializerWithSpeakers
 
 
