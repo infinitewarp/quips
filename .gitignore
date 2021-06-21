@@ -66,3 +66,6 @@ mailhog
 
 .vscode
 quips.egg-info
+
+# locally generated static files
+staticfiles
