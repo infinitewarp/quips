@@ -1,9 +1,9 @@
 asgiref==3.3.4; python_version >= "3.6" \
     --hash=sha256:92906c611ce6c967347bbfea733f13d6313901d54dcca88195eaeb52b2a8e8ee \
     --hash=sha256:d1216dfbdfb63826470995d31caed36225dcaf34f182e0fa257a4dd9e86f1b78
-django-environ==0.4.5 \
-    --hash=sha256:6c9d87660142608f63ec7d5ce5564c49b603ea8ff25da595fd6098f6dc82afde \
-    --hash=sha256:c57b3c11ec1f319d9474e3e5a79134f40174b17c7cc024bbb2fad84646b120c4
+django-environ==0.5.0 \
+    --hash=sha256:027797af03258931f16c5491cab32e6b386d52f041eb582f1e30f7b5abc22e04 \
+    --hash=sha256:a8726675c1ebefa4706b36398c4d3c5c790d335ffe55c4a10378f6bfd57ad8d0
 django-memoize==2.3.1 \
     --hash=sha256:62ac4807710ecf22a7397d008d64d0f798e7230482d4b6072d916cac852a47cd
 django-model-utils==4.1.1 \
