@@ -14,9 +14,9 @@ django-redis==5.0.0; python_version >= "3.6" \
     --hash=sha256:97739ca9de3f964c51412d1d7d8aecdfd86737bb197fce6e1ff12620c63c97ee
 django-typogrify==1.3.3 \
     --hash=sha256:deffbb85ddd0c94bed6063ab7ad241b72e0f3e7c3160d9ea5f6388177901541e
-django==3.2.4; python_version >= "3.6" \
-    --hash=sha256:ea735cbbbb3b2fba6d4da4784a0043d84c67c92f1fdf15ad6db69900e792c10f \
-    --hash=sha256:66c9d8db8cc6fe938a28b7887c1596e42d522e27618562517cc8929eb7e7f296
+django==3.2.8; python_version >= "3.6" \
+    --hash=sha256:42573831292029639b798fe4d3812996bfe4ff3275f04566da90764daec011a5 \
+    --hash=sha256:f6d2c4069c9b9bfac03bedff927ea1f9e0d29e34525cec8a68fd28eb2a8df7af
 djangorestframework==3.12.4; python_version >= "3.5" \
     --hash=sha256:6d1d59f623a5ad0509fe0d6bfe93cbdfe17b8116ebc8eda86d45f6e16e819aaf \
     --hash=sha256:f747949a8ddac876e879190df194b925c177cdeb725a099db1460872f7c0a7f2
