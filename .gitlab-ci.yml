@@ -1,4 +1,4 @@
-image: python:3.7
+image: python:3.10
 
 check requirements.txt:
   stage: test
@@ -18,10 +18,9 @@ unit tests:
   before_script:
     - pip install tox poetry codecov
   script:
-    - tox -epy37
+    - tox -epy310
     - codecov
 
 include:
   - template: SAST.gitlab-ci.yml
 #  - template: License-Scanning.gitlab-ci.yml
-
