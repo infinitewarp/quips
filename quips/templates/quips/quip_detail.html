@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 {% load static %}
-{% load typogrify_tags %}
 {% load quips_extras %}
 
 {% block title %}Quipped on {{ object.date}}{% endblock %}
@@ -20,17 +19,17 @@
           {% else %}
           {{ quote.speaker.name }}
           {% endif %}
-          {{ quote|typogrify }}
+          {{ quote }}
         </p>
       </blockquote>
       {% else %}
       <blockquote>
-        <p>{{ quote|typogrify }}</p>
+        <p>{{ quote }}</p>
         <footer class="text-right"><cite>
           {% if quote.speaker.should_obfuscate %}
-          {{ quote.speaker.name|obfuscate_name|typogrify }}
+          {{ quote.speaker.name|obfuscate_name }}
           {% else %}
-          {{ quote.speaker.name|typogrify }}
+          {{ quote.speaker.name }}
           {% endif %}
         </cite></footer>
       </blockquote>
@@ -42,7 +41,7 @@
     {{ object.date }}
     <a href="{% url 'website:detail' quip.uuid %}" class="quip-link" title="Permalink to this quip"><span class="glyphicon glyphicon-link"></span></a>
   </p>
-  {% if object.context %}<p class="text-center quip-context">{{ object.context|typogrify }}</p>{% endif %}
+  {% if object.context %}<p class="text-center quip-context">{{ object.context }}</p>{% endif %}
 </div>
 {% endautoescape %}
 {% endblock content %}
@@ -50,4 +49,3 @@
 {% block footer %}
 <a href="{% url 'website:random' %}"><span class="glyphicon glyphicon-fire randomizer"></span></a>
 {% endblock footer %}
-

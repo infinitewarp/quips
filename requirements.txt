@@ -1,4 +1,4 @@
-asgiref==3.5.0; python_version >= "3.7" \
+asgiref==3.5.0; python_version >= "3.8" \
     --hash=sha256:88d59c13d634dcffe0510be048210188edd79aeccb6a6c9028cdad6f31d730a9 \
     --hash=sha256:2f8abc20f7248433085eda803936d98992f1343ddb022065779f37c5da0181d0
 deprecated==1.2.13; python_version >= "3.6" and python_full_version < "3.0.0" or python_full_version >= "3.4.0" and python_version >= "3.6" \
@@ -15,11 +15,9 @@ django-model-utils==4.2.0 \
 django-redis==5.2.0; python_version >= "3.6" \
     --hash=sha256:8a99e5582c79f894168f5865c52bd921213253b7fd64d16733ae4591564465de \
     --hash=sha256:1d037dc02b11ad7aa11f655d26dac3fb1af32630f61ef4428860a2e29ff92026
-django-typogrify==1.3.3 \
-    --hash=sha256:deffbb85ddd0c94bed6063ab7ad241b72e0f3e7c3160d9ea5f6388177901541e
-django==3.2.12; python_version >= "3.6" \
-    --hash=sha256:9b06c289f9ba3a8abea16c9c9505f25107809fb933676f6c891ded270039d965 \
-    --hash=sha256:9772e6935703e59e993960832d66a614cf0233a1c5123bc6224ecc6ad69e41e2
+django==4.0.2; python_version >= "3.8" \
+    --hash=sha256:996495c58bff749232426c88726d8cd38d24c94d7c1d80835aafffa9bc52985a \
+    --hash=sha256:110fb58fb12eca59e072ad59fc42d771cd642dd7a2f2416582aa9da7a8ef954a
 djangorestframework==3.13.1; python_version >= "3.6" \
     --hash=sha256:24c4bf58ed7e85d1fe4ba250ab2da926d263cd57d64b03e8dcef0ac683f8b1aa \
     --hash=sha256:0c33407ce23acc68eca2a6e46424b008c9c02eceb8cf18581921d0092bc1f2ee
@@ -98,11 +96,12 @@ redis==4.1.4; python_version >= "3.6" \
 six==1.16.0; python_version >= "2.7" and python_full_version < "3.0.0" or python_full_version >= "3.3.0" \
     --hash=sha256:8abb2f1d86890a2dfb989f9a77cfcfd3e47c2a354b01111771326f8aa26e0254 \
     --hash=sha256:1e61c37477a1626458e36f7b1d82aa5c9b094fa4802892072e49de9c60c4c926
-smartypants==2.0.1 \
-    --hash=sha256:8db97f7cbdf08d15b158a86037cd9e116b4cf37703d24e0419a0d64ca5808f0d
-sqlparse==0.4.2; python_version >= "3.6" \
+sqlparse==0.4.2; python_version >= "3.8" \
     --hash=sha256:48719e356bb8b42991bdbb1e8b83223757b93789c00910a616a071910ca4a64d \
     --hash=sha256:0c00730c74263a94e5a9919ade150dfc3b19c574389985446148402998287dae
+tzdata==2021.5; sys_platform == "win32" and python_version >= "3.8" \
+    --hash=sha256:3eee491e22ebfe1e5cfcc97a4137cd70f092ce59144d81f8924a844de05ba8f5 \
+    --hash=sha256:68dbe41afd01b867894bbdfd54fa03f468cfa4f0086bfb4adcd8de8f24f3ee21
 unicode-slugify==0.1.5 \
     --hash=sha256:25f424258317e4cb41093e2953374b3af1f23097297664731cdb3ae46f6bd6c3 \
     --hash=sha256:33a11c0ac901f7220659dd0dd6f232cf39637dfd1b9f5f35ef5ead9fef696879

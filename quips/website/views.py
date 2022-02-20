@@ -2,7 +2,7 @@ import random
 
 from django.conf import settings
 from django.http import Http404
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 from django.views.generic.detail import DetailView, SingleObjectMixin
 
 from quips.quips.filters import (

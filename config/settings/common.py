@@ -41,7 +41,6 @@ DJANGO_APPS = (
     "django.contrib.admin",
 )
 THIRD_PARTY_APPS = (
-    "typogrify",  # prettier template output
     "memoize",  # function memoization
     "rest_framework",  # DRF
 )
@@ -222,7 +221,7 @@ AUTOSLUG_SLUGIFY_FUNCTION = "slugify.slugify"
 
 
 # Location of root django.contrib.admin URL, use {% url 'admin:index' %}
-ADMIN_URL = r"^admin/"
+ADMIN_URL = "admin/"
 
 # Your common stuff: Below this line define 3rd party library settings
 DEFAULT_QUIP_UUID = env("DEFAULT_QUIP_UUID", default=None)
