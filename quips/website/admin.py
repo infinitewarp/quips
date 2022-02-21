@@ -30,6 +30,7 @@ class QuoteAdmin(admin.ModelAdmin):
 
 class QuipAdmin(admin.ModelAdmin):
     list_display = ("id", "date", "context", "first_quote", "link")
+    list_filter = ("quotes__speaker__cliques__name", "quotes__speaker__name")
     inlines = [QuoteInline]
     fields = ("context", "date", "link")
     readonly_fields = ["link"]
