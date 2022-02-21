@@ -1,3 +1,4 @@
+from django.urls import reverse
 from rest_framework.fields import SerializerMethodField
 from rest_framework.serializers import ModelSerializer
 
@@ -25,9 +26,16 @@ class SpeakerSerializerWithCliques(ModelSerializer):
 
     class Meta:
         model = models.Speaker
-        fields = ["id", "name", "cliques"]
+        fields = ["id", "name", "cliques", "random_url"]
+        read_only_fields = ["random_url"]
 
     cliques = CliqueSerializer(many=True)
+    random_url = SerializerMethodField()
+
+    def get_random_url(self, instance):
+        request = self.context.get("request")
+        url = request.build_absolute_uri(reverse("website:random"))
+        return f"{url}?speaker_id={instance.id}"
 
 
 class CliqueSerializerWithSpeakers(ModelSerializer):
