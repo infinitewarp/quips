@@ -1,4 +1,4 @@
-from rest_framework import viewsets
+from rest_framework import filters, viewsets
 from rest_framework.response import Response
 
 from . import serializers
@@ -11,6 +11,8 @@ class SpeakerViewSet(viewsets.ReadOnlyModelViewSet):
 
     queryset = models.Speaker.objects.all().order_by("id")
     serializer_class = serializers.SpeakerSerializerWithCliques
+    filter_backends = [filters.SearchFilter]
+    search_fields = ["name", "cliques__name"]
 
 
 class CliqueViewSet(viewsets.ReadOnlyModelViewSet):
