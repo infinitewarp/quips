@@ -20,6 +20,7 @@ class QuoteAdmin(admin.ModelAdmin):
     fields = ("text", "quip", "speaker", "quip_link")
     readonly_fields = ["quip_link"]
     ordering = ("-quip_id", "_order")
+    search_fields = ["text", "speaker__name"]
 
     def quip_link(self, obj):
         href = reverse("website:detail", args=(obj.quip.uuid,))
@@ -34,6 +35,7 @@ class QuipAdmin(admin.ModelAdmin):
     inlines = [QuoteInline]
     fields = ("context", "date", "link")
     readonly_fields = ["link"]
+    search_fields = ["context", "quotes__text", "quotes__speaker__name", "uuid"]
 
     def get_queryset(self, request):
         """Prefetch the related quotes for faster list display."""
