@@ -35,7 +35,7 @@ class QuipAdmin(admin.ModelAdmin):
     inlines = [QuoteInline]
     fields = ("context", "date", "link")
     readonly_fields = ["link"]
-    search_fields = ["context", "quotes__text", "quotes__speaker__name", "uuid"]
+    search_fields = ["context", "quotes__text", "uuid"]
 
     def get_queryset(self, request):
         """Prefetch the related quotes for faster list display."""
