@@ -29,7 +29,7 @@ flake8-import-order = "*"
 flake8-black = "*"
 faker = "*"
 coverage = "*"
-werkzeug = "^2.0.0"
+werkzeug = "^2.2.3"
 
 [build-system]
 requires = ["poetry>=0.12"]
