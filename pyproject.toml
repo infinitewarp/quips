@@ -31,6 +31,9 @@ faker = "*"
 coverage = "*"
 werkzeug = "^2.0.0"
 
+[tool.poetry.group.dev.dependencies]
+tox = "^4.6.4"
+
 [build-system]
 requires = ["poetry>=0.12"]
 build-backend = "poetry.masonry.api"
