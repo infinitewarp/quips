@@ -20,7 +20,7 @@ unicode-slugify = "*"
 whitenoise = "*"
 djangorestframework = "*"
 
-[tool.poetry.dev-dependencies]
+[tool.poetry.group.dev.dependencies]
 black = { version = "*", allow-prereleases = true }
 django-extensions = "*"
 flake8 = "*"
@@ -30,8 +30,6 @@ flake8-black = "*"
 faker = "*"
 coverage = "*"
 werkzeug = "^2.0.0"
-
-[tool.poetry.group.dev.dependencies]
 tox = "^4.6.4"
 
 [build-system]
