@@ -34,18 +34,6 @@ Creating admin user:
 
     docker-compose -f dev.yml run django /app/manage.py createsuperuser
 
-### Running on Heroku
-
-Install and log in to Heroku:
-
-    brew tap heroku/brew && brew install heroku
-    heroku login
-
-Add the Heroku remote and push:
-
-    heroku git:remote -a quips  # replace "quips" with your app name
-    git push heroku master
-
 ### Importing Quips
 
 You can import quips in bulk via CSV file upload. One row contains a Quip

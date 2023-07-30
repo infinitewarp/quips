@@ -1,12 +1,5 @@
 image: python:3.11
 
-check requirements.txt:
-  stage: test
-  before_script:
-    - pip install poetry
-  script:
-    - poetry export -f requirements.txt | diff requirements.txt -
-
 flake8:
   stage: test
   before_script:
