@@ -1,25 +1,29 @@
-#!/bin/bash
+#!/bin/sh
+
 set -e
-cmd="$@"
+cmd="$*"
 
-export REDIS_URL=redis://redis:6379
+[ -z "$POSTGRES_USER" ] && POSTGRES_USER="postgres"
+[ -z "$POSTGRES_PASSWORD" ] && POSTGRES_PASSWORD="postgres"
+[ -z "$POSTGRES_HOST" ] && POSTGRES_HOST="postgres"
+[ -z "$POSTGRES_DBNAME" ] && POSTGRES_DBNAME="postgres"
+[ -z "$POSTGRES_PORT" ] && POSTGRES_PORT="5432"
 
-# the official postgres image uses 'postgres' as default user if not set explicitly.
-if [ -z "$POSTGRES_USER" ]; then
-    export POSTGRES_USER=postgres
-fi
-
-export DATABASE_URL=postgres://$POSTGRES_USER:$POSTGRES_PASSWORD@postgres:5432/$POSTGRES_USER
-
-function postgres_ready(){
+postgres_ready() {
 python << END
 import sys
 try:
-	import psycopg2cffi as psycopg2
+    import psycopg2cffi as psycopg2
 except ModuleNotFoundError:
-	import psycopg2
+    import psycopg2
 try:
-    conn = psycopg2.connect(dbname="$POSTGRES_USER", user="$POSTGRES_USER", password="$POSTGRES_PASSWORD", host="postgres")
+    conn = psycopg2.connect(
+        dbname="$POSTGRES_USER",
+        user="$POSTGRES_USER",
+        password="$POSTGRES_PASSWORD",
+        host="$POSTGRES_HOST",
+        port="$POSTGRES_PORT",
+    )
 except psycopg2.OperationalError:
     sys.exit(-1)
 sys.exit(0)
@@ -32,4 +36,10 @@ until postgres_ready; do
 done
 
 >&2 echo "Postgres is up - continuing..."
+
+[ -z "$REDIS_URL" ] && REDIS_URL="redis://redis:6379"
+export REDIS_URL
+[ -z "$DATABASE_URL" ] && DATABASE_URL="postgres://$POSTGRES_USER:$POSTGRES_PASSWORD@$POSTGRES_HOST:$POSTGRES_PORT/$POSTGRES_DBNAME"
+export DATABASE_URL
+
 exec $cmd
