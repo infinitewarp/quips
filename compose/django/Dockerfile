@@ -1,9 +1,8 @@
-FROM python:3.11
+FROM python:3.11-alpine
 
 ENV PYTHONUNBUFFERED 1
 
-RUN groupadd -r django \
-    && useradd -r -g django django
+RUN addgroup -S django && adduser -S django -G django
 RUN pip install poetry
 
 # Install here so packages can be cached ahead of the app itself.
