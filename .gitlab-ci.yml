@@ -3,13 +3,21 @@ image: python:3.11
 flake8:
   stage: test
   before_script:
-    - pip install tox poetry
+    - pip install -U pip tox
+    # It is unclear why, but gitlab-ci pip installs a very old poetry.
+    # Directly invoking the official installer gets a modern version.
+    - curl -sSL https://install.python-poetry.org | python3 -
+    - export PATH="/root/.local/bin:$PATH"
   script: tox -eflake8
 
 unit tests:
   stage: test
   before_script:
-    - pip install tox poetry codecov
+    - pip install -U pip tox codecov
+    # It is unclear why, but gitlab-ci pip installs a very old poetry.
+    # Directly invoking the official installer gets a modern version.
+    - curl -sSL https://install.python-poetry.org | python3 -
+    - export PATH="/root/.local/bin:$PATH"
   script:
     - tox -epy311
     - codecov
