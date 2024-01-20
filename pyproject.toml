@@ -15,9 +15,9 @@ gunicorn = "*"
 psycopg2-binary = "*"
 pytz = "*"
 redis = "*"
-unicode-slugify = "*"
 whitenoise = "*"
 djangorestframework = "*"
+unidecode = "^1.3.8"
 
 [tool.poetry.group.dev.dependencies]
 black = { version = "*", allow-prereleases = true }

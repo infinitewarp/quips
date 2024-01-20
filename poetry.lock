@@ -818,21 +818,6 @@ files = [
 ]
 
 [[package]]
-name = "unicode-slugify"
-version = "0.1.5"
-description = "A slug generator that turns strings into unicode slugs."
-optional = false
-python-versions = "*"
-files = [
-    {file = "unicode-slugify-0.1.5.tar.gz", hash = "sha256:25f424258317e4cb41093e2953374b3af1f23097297664731cdb3ae46f6bd6c3"},
-    {file = "unicode_slugify-0.1.5-py3-none-any.whl", hash = "sha256:33a11c0ac901f7220659dd0dd6f232cf39637dfd1b9f5f35ef5ead9fef696879"},
-]
-
-[package.dependencies]
-six = "*"
-unidecode = "*"
-
-[[package]]
 name = "unidecode"
 version = "1.3.8"
 description = "ASCII transliterations of Unicode text"
@@ -897,4 +882,4 @@ brotli = ["Brotli"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "8dfc6872967633f91f59f52c80e5bd200d2e310f43ab49f50e22ed4cc2de8eb4"
+content-hash = "1093aab4af4c3a28a86cf6144fb2530d35d0bc57d692ceb293ea03f2e64b1b61"

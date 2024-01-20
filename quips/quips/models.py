@@ -1,11 +1,22 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
+import re
 import uuid as uuid
 
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from slugify import slugify
+from unidecode import unidecode
+
+
+SLUG_DISALLOWED_CHARS = re.compile("[^a-z0-9-_~]")
+SLUG_EXCESS_SPACES = re.compile(r"\s+")
+
+
+def slugify(slug: str) -> str:
+    """Make a URL-safe slug from a given string."""
+    slug = unidecode(slug)
+    slug = slug.lower().strip()
+    slug = SLUG_EXCESS_SPACES.sub("-", slug)
+    return SLUG_DISALLOWED_CHARS.sub("", slug)
 
 
 class Clique(models.Model):
