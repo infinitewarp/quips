@@ -242,19 +242,6 @@ files = [
 Django = ">=3.2"
 
 [[package]]
-name = "django-memoize"
-version = "2.3.1"
-description = "An implementation of memoization technique for Django."
-optional = false
-python-versions = "*"
-files = [
-    {file = "django-memoize-2.3.1.tar.gz", hash = "sha256:62ac4807710ecf22a7397d008d64d0f798e7230482d4b6072d916cac852a47cd"},
-]
-
-[package.dependencies]
-django = "*"
-
-[[package]]
 name = "django-model-utils"
 version = "4.3.1"
 description = "Django model mixins and utilities"
@@ -910,4 +897,4 @@ brotli = ["Brotli"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "1d96db462ed811d2b2853300a247615bd0af046f4f1aaf91e21a047640320769"
+content-hash = "8dfc6872967633f91f59f52c80e5bd200d2e310f43ab49f50e22ed4cc2de8eb4"

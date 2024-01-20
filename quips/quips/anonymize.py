@@ -2,7 +2,7 @@ import random
 import time
 from datetime import date
 
-from memoize import memoize
+from django.core.cache import cache
 
 
 def shuffle_word(word):
@@ -30,9 +30,11 @@ def shuffle_word(word):
     return new_word
 
 
-@memoize(timeout=5)
 def obfuscate_name(value, delimeter=" "):
+    cache_key = f"obfuscate_name_{hash((value, delimeter))}"
+    if new_name := cache.get(cache_key):
+        return new_name
     names = value.split(delimeter)
-
     new_name = delimeter.join([shuffle_word(word) for word in names])
+    cache.set(cache_key, new_name, 5)
     return new_name
