@@ -290,13 +290,13 @@ pytz = "*"
 
 [[package]]
 name = "faker"
-version = "22.4.0"
+version = "23.0.0"
 description = "Faker is a Python package that generates fake data for you."
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "Faker-22.4.0-py3-none-any.whl", hash = "sha256:b649d7b9b03e9e8283506411a56ecef124c8cd8d2bd300d8d7c858fa42350c4e"},
-    {file = "Faker-22.4.0.tar.gz", hash = "sha256:9abc6decb78dde54cccbad4432431b3caba796bd06950225da158e86c55855d3"},
+    {file = "Faker-23.0.0-py3-none-any.whl", hash = "sha256:8ca62b41b83bc6bcebe4ec5e7535405881fbd5ef69c6df933550de7111099575"},
+    {file = "Faker-23.0.0.tar.gz", hash = "sha256:f508c6a131f2cff8594f66f218f6674d3a78488455fd73ffd8c684efae4dc4d3"},
 ]
 
 [package.dependencies]
@@ -882,4 +882,4 @@ brotli = ["Brotli"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "21ae26a1adf38c965b0884b9637b8e6f6df6f6d10f897d83831426dfce1f4314"
+content-hash = "482347e760a6c7ca6c7a055c5d728d8a75c1a775ccd9a74a25367a54bdaf94c9"
