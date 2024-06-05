@@ -8,7 +8,7 @@ RUN pip install poetry
 # Install here so packages can be cached ahead of the app itself.
 COPY poetry.lock pyproject.toml /
 RUN poetry config virtualenvs.create false \
-  && poetry install --verbose --no-dev --no-interaction --no-ansi
+  && poetry install --verbose --only main --no-interaction --no-ansi
 
 COPY ./compose/django/gunicorn.sh ./compose/django/entrypoint.sh /
 RUN sed -i 's/\r//' /entrypoint.sh \
