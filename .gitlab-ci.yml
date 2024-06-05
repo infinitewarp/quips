@@ -1,5 +1,9 @@
 image: python:3.12
 
+stages:
+  - test
+  - build
+
 lint:
   stage: test
   before_script:
@@ -21,6 +25,16 @@ unit tests:
   script:
     - tox -epy312
     - codecov
+
+docker build:
+  stage: build
+  image: docker
+  services:
+    - docker:dind
+  variables:
+    DOCKER_DRIVER: overlay2
+  script:
+    - docker build -t ${CI_REGISTRY_IMAGE}:latest -f ./compose/django/Dockerfile .
 
 include:
   - template: SAST.gitlab-ci.yml
