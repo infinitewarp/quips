@@ -1,4 +1,4 @@
-from django.db import migrations, models
+from django.db import migrations
 
 
 def copy_old_quote_order(apps, schema_editor):

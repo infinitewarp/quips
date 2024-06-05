@@ -1,6 +1,6 @@
 image: python:3.12
 
-flake8:
+lint:
   stage: test
   before_script:
     - pip install -U pip tox
@@ -8,7 +8,7 @@ flake8:
     # Directly invoking the official installer gets a modern version.
     - curl -sSL https://install.python-poetry.org | python3 -
     - export PATH="/root/.local/bin:$PATH"
-  script: tox -eflake8
+  script: tox -elint
 
 unit tests:
   stage: test
