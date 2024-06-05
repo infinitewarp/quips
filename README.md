@@ -2,9 +2,7 @@
 
 Silly web app for silly quips. :tada:
 
-## Live Demo
-
-[Quips on Heroku](https://infinitewarp.herokuapp.com/quips/)
+[Live Demo](https://quips.infinitewarp.com/quips/)
 
 ## Setup
 
