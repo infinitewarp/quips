@@ -6,7 +6,6 @@ import django.contrib.sites.models
 
 
 class Migration(migrations.Migration):
-
     dependencies = []
 
     operations = [
