@@ -3,7 +3,6 @@
 Local settings
 
 - Run in Debug mode
-- Use console backend for emails
 - Add django-extensions as app
 """
 
@@ -22,14 +21,6 @@ ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", default=["*"])
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#secret-key
 # Note: This key only used for development and testing.
 SECRET_KEY = env("DJANGO_SECRET_KEY", default="local")
-
-# Mail settings
-# ------------------------------------------------------------------------------
-EMAIL_HOST = "localhost"
-EMAIL_PORT = 1025
-EMAIL_BACKEND = env(
-    "DJANGO_EMAIL_BACKEND", default="django.core.mail.backends.console.EmailBackend"
-)
 
 # CACHING
 # ------------------------------------------------------------------------------
