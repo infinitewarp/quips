@@ -1,7 +1,10 @@
+import logging
 import random
 
 from django.conf import settings
 from django.http import Http404
+from django.shortcuts import redirect
+from django.urls import reverse
 from django.utils.translation import gettext as _
 from django.views.generic.detail import DetailView, SingleObjectMixin
 
@@ -12,6 +15,8 @@ from quips.quips.filters import (
     filter_by_uuid,
 )
 from quips.quips.models import Quip
+
+logger = logging.getLogger(__name__)
 
 
 class QuipDetailView(DetailView):
@@ -39,6 +44,12 @@ class QuipDetailView(DetailView):
 
 
 class QuipDefaultView(QuipDetailView):
+    def get(self, *args, **kwargs):
+        if not settings.DEFAULT_QUIP_UUID:
+            logger.error("DEFAULT_QUIP_UUID is not set; redirecting to random")
+            return redirect(reverse("website:random"))
+        return super().get(*args, **kwargs)
+
     def get_object(self, queryset=None):
         self.kwargs["uuid"] = settings.DEFAULT_QUIP_UUID
         return super(QuipDefaultView, self).get_object(queryset)
