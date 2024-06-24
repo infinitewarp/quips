@@ -61,9 +61,6 @@ quips/media/
 # Hitch directory
 tests/.hitch
 
-# MailHog binary
-mailhog
-
 .vscode
 quips.egg-info
 
