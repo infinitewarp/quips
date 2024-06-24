@@ -42,20 +42,14 @@ INSTALLED_APPS += ("gunicorn",)
 
 DATABASES["default"] = env.db("DATABASE_URL")
 
+# https://docs.djangoproject.com/en/dev/topics/cache/#redis
+REDIS_URL = env("REDIS_URL", default="redis://127.0.0.1:6379")
 CACHES = {
     "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "{0}/{1}".format(
-            env("REDIS_URL", default="redis://127.0.0.1:6379"), 0
-        ),
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient",
-            "IGNORE_EXCEPTIONS": True,  # mimics memcache behavior.
-            # http://niwinz.github.io/django-redis/latest/#_memcached_exceptions_behavior
-        },
+        "BACKEND": "django.core.cache.backends.redis.RedisCache",
+        "LOCATION": REDIS_URL,
     }
 }
-
 
 # https://docs.djangoproject.com/en/dev/ref/settings/#logging
 # http://docs.djangoproject.com/en/dev/topics/logging
