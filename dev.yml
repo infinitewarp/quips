@@ -18,6 +18,14 @@ services:
     ports:
       - "5432:5432"
 
+  redis:
+    image: redis:alpine
+    restart: always
+    expose:
+      - 6379
+    ports:
+      - '6379:6379'
+
   django:
     build:
       context: .
@@ -25,6 +33,7 @@ services:
     command: /start-dev.sh
     depends_on:
       - postgres
+      - redis
     environment:
       - POSTGRES_USER=quips
       - POSTGRES_PASSWORD=quips
