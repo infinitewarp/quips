@@ -3,7 +3,6 @@
 Production Configurations
 
 - Use djangosecure
-- Use Redis on Heroku
 
 """
 
@@ -18,8 +17,7 @@ from .common import *  # noqa: F403
 # Raises ImproperlyConfigured exception if DJANGO_SECRET_KEY not in os.environ
 SECRET_KEY = env("DJANGO_SECRET_KEY")
 
-# This ensures that Django will be able to detect a secure connection
-# properly on Heroku.
+# https://docs.djangoproject.com/en/dev/ref/settings/#secure-proxy-ssl-header
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 # DJANGO SECURITY
@@ -59,7 +57,6 @@ DATABASES["default"] = env.db("DATABASE_URL")
 
 # CACHING
 # ------------------------------------------------------------------------------
-# Heroku URL does not pass the DB number, so we parse it in
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
