@@ -1,0 +1,19 @@
+name: Build container image
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-docker:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Buildah Action
+      uses: redhat-actions/buildah-build@v2
+      with:
+        image: quips
+        tags: ${{ github.sha }}
+        containerfiles: ./compose/django/Dockerfile

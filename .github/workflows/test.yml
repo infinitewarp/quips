@@ -1,0 +1,31 @@
+name: Test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - run: pipx install poetry
+    - uses: actions/setup-python@v5
+      with:
+        cache: "poetry"
+    - run: poetry install --with dev
+    - run: poetry run ruff check .
+    - run: poetry run ruff format --check .
+
+  unit-test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - run: pipx install poetry
+    - uses: actions/setup-python@v5
+      with:
+        cache: "poetry"
+    - run: poetry install --with dev
+    - run: DJANGO_SETTINGS_MODULE=config.settings.test poetry run coverage run ./manage.py test
