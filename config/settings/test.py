@@ -6,7 +6,8 @@ Test settings
 - Use sqlite for database
 """
 
-from .common import *  # noqa
+from .common import *  # noqa: F403
+# ruff: noqa: F405
 
 DEBUG = env.bool("DJANGO_DEBUG", default=False)
 TEMPLATES[0]["OPTIONS"]["debug"] = DEBUG

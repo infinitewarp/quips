@@ -1,49 +1,51 @@
 # -*- coding: utf-8 -*-
-'''
+"""
 Local settings
 
 - Run in Debug mode
 - Use console backend for emails
 - Add django-extensions as app
-'''
+"""
 
-from .common import *  # noqa
+from .common import *  # noqa: F403
+# ruff: noqa: F405
 
 # DEBUG
 # ------------------------------------------------------------------------------
-DEBUG = env.bool('DJANGO_DEBUG', default=True)
-TEMPLATES[0]['OPTIONS']['debug'] = DEBUG
+DEBUG = env.bool("DJANGO_DEBUG", default=True)
+TEMPLATES[0]["OPTIONS"]["debug"] = DEBUG
 
-ALLOWED_HOSTS = env.list('DJANGO_ALLOWED_HOSTS', default=['*'])
+ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", default=["*"])
 
 # SECRET CONFIGURATION
 # ------------------------------------------------------------------------------
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#secret-key
 # Note: This key only used for development and testing.
-SECRET_KEY = env("DJANGO_SECRET_KEY", default='nicsb*w37f=h-_bmgi_)7wz8p@-gbe8e3gegu*xgo137carher')
+SECRET_KEY = env("DJANGO_SECRET_KEY", default="local")
 
 # Mail settings
 # ------------------------------------------------------------------------------
-EMAIL_HOST = 'localhost'
+EMAIL_HOST = "localhost"
 EMAIL_PORT = 1025
-EMAIL_BACKEND = env('DJANGO_EMAIL_BACKEND',
-                    default='django.core.mail.backends.console.EmailBackend')
+EMAIL_BACKEND = env(
+    "DJANGO_EMAIL_BACKEND", default="django.core.mail.backends.console.EmailBackend"
+)
 
 # CACHING
 # ------------------------------------------------------------------------------
 CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-        'LOCATION': ''
+    "default": {
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+        "LOCATION": "",
     }
 }
 
 # django-extensions
 # ------------------------------------------------------------------------------
-INSTALLED_APPS += ('django_extensions', )
+INSTALLED_APPS += ("django_extensions",)
 
 # TESTING
 # ------------------------------------------------------------------------------
-TEST_RUNNER = 'django.test.runner.DiscoverRunner'
+TEST_RUNNER = "django.test.runner.DiscoverRunner"
 
 # Your local stuff: Below this line define 3rd party library settings

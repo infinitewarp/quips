@@ -19,7 +19,6 @@ def copy_old_quote_order(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("quips", "0006_speaker_should_obfuscate"),
     ]
