@@ -6,14 +6,35 @@ on:
   pull_request:
     branches: [main]
 
+env:
+  TAG_NAME: ${{ github.event_name == 'push' && github.ref_name || format('pr-{0}', github.event.pull_request.number) }}
+
 jobs:
-  build-docker:
+  build-container-image:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    - name: Buildah Action
+
+    - name: build image
+      id: build-image
       uses: redhat-actions/buildah-build@v2
       with:
-        image: quips
-        tags: ${{ github.sha }}
+        image: infinitewarp/quips
+        tags: ${{ github.sha }} ${{ env.TAG_NAME }}
         containerfiles: ./compose/django/Dockerfile
+
+    - name: push image
+      id: push-to-registry
+      # Push *only* after the merge. Until I actually need to push PR images, why waste storage?
+      if: github.event.pull_request.merged == true
+      uses: redhat-actions/push-to-registry@v2
+      with:
+        image: ${{ steps.build-image.outputs.image }}
+        tags: ${{ steps.build-image.outputs.tags }}
+        registry: ${{ secrets.REGISTRY }}
+        username: ${{ secrets.REGISTRY_USERNAME }}
+        password: ${{ secrets.REGISTRY_PASSWORD }}
+
+    - name: Show image url
+      if: github.event.pull_request.merged == true
+      run: echo "Image pushed to ${{ steps.push-to-registry.outputs.registry-paths }}"
