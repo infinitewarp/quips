@@ -1,6 +1,7 @@
 import argparse
 import csv
 import logging
+from collections import defaultdict
 
 from django.core.management.base import BaseCommand
 from django.db import transaction
@@ -75,10 +76,14 @@ class Command(BaseCommand):
     def _handle_file(self, the_file):
         """Read the CSV and import its contents."""
         successes = 0
-        new_quips = list()
+        new_quips: list[Quip] = list()
+        speaker_quips = defaultdict(set)  # {"John Doe": {4, 7, 10}, ... }
         for row_num, row in enumerate(csv.reader(the_file)):
             try:
-                new_quips.append(self._import_quip_row(row))
+                new_quip = self._import_quip_row(row)
+                for quote in new_quip.quotes.all():
+                    speaker_quips[quote.speaker.name].add(new_quip.id)
+                new_quips.append(new_quip)
                 successes += 1
             except Exception as e:
                 self.stderr.write(
@@ -89,6 +94,16 @@ class Command(BaseCommand):
             self.stdout.write(
                 self.style.SUCCESS("Successfully imported {} quips".format(successes))
             )
+            for speaker_name, quip_ids in sorted(
+                speaker_quips.items(), key=lambda x: x[0].lower()
+            ):
+                self.stdout.write(
+                    self.style.SUCCESS(
+                        "* {} participated in {} quips".format(
+                            speaker_name, len(quip_ids)
+                        )
+                    )
+                )
             answer = get_input("Save changes? [Y/n]")
             if answer != "Y":
                 raise AbortedImport()
@@ -96,7 +111,7 @@ class Command(BaseCommand):
             self.stderr.write(self.style.WARNING("No new quips found."))
         return new_quips
 
-    def _import_quip_row(self, row):
+    def _import_quip_row(self, row) -> Quip:
         """
         Import a row (at this point effectively a tuple) of quip data.
 
@@ -138,6 +153,8 @@ class Command(BaseCommand):
         if len(quotes) > 1:
             quote_order = [quote.id for quote in quotes]
             quip.set_quote_order(quote_order)
+
+        return quip
 
     def _quote_already_exists(self, date, speaker_name, quote_text):
         """Check if the quote already exists."""
