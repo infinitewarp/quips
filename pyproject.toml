@@ -22,7 +22,7 @@ ruff = "^0.4.8"
 
 [tool.poetry.group.dev.dependencies]
 django-extensions = "^3.2.3"
-faker = "^25.5.0"
+faker = "^26.0.0"
 coverage = "^7.5.3"
 werkzeug = "^3.0.3"
 tox = "^4.15.0"
