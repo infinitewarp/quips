@@ -30,4 +30,4 @@ services:
       - "0.0.0.0:80:80"
 
   redis:
-    image: redis:7.2
+    image: redis:7.4
