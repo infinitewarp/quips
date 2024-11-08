@@ -23,7 +23,7 @@ unit tests:
     - curl -sSL https://install.python-poetry.org | python3 -
     - export PATH="/root/.local/bin:$PATH"
   script:
-    - tox -epy312
+    - tox -epy313
     - codecov
 
 docker build:
